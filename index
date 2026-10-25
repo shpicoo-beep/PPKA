@@ -2583,6 +2583,7 @@
        PRESENSI CAMERA (SELFIE) FUNCTIONS
        ===================================================================== */
     let tempSelfieData = { come: null, leave: null };
+    window.tempSelfieData = tempSelfieData;
 
     async function startSelfieCamera(type) {
       const video = $(type === 'come' ? 'videoCome' : 'videoLeave');
