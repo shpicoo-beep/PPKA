@@ -1,133 +1,3542 @@
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0f766e">
-<title>KepAn Track v4</title>
-<style>
-:root{--p:#0f766e;--p2:#115e59;--bg:#f3f7f7;--line:#dbe5e7;--mut:#64748b;--ok:#15803d;--warn:#b45309;--danger:#b91c1c}
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:#17313b}header{background:linear-gradient(135deg,#115e59,#0f766e);color:#fff;padding:20px}.head{max-width:1100px;margin:auto}main{max-width:1100px;margin:18px auto;padding:0 12px}.layout{display:grid;grid-template-columns:230px 1fr;gap:16px}nav,.card{background:#fff;border:1px solid var(--line);border-radius:14px}nav{padding:8px;height:max-content;position:sticky;top:10px}nav button{display:block;width:100%;border:0;background:none;text-align:left;padding:11px;border-radius:9px;cursor:pointer;font-weight:700;color:#17313b}nav button.active,nav button:hover{background:#dff5f1;color:var(--p2)}.card{padding:18px;margin-bottom:15px}h1{margin:0;font-size:23px}h2{margin:0 0 5px;font-size:20px}.muted{color:var(--mut);font-size:13px}.row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}label{display:block;font-size:13px;font-weight:700;margin:9px 0 5px}input,select,textarea{width:100%;padding:10px;border:1px solid #cbd8dc;border-radius:9px;font:inherit}textarea{min-height:100px}.btn{border:0;border-radius:9px;padding:10px 13px;font-weight:700;cursor:pointer;background:var(--p);color:#fff;margin-top:12px}.secondary{background:#e8f0f0;color:var(--p2)}.danger{background:#fee2e2;color:var(--danger)}.hidden{display:none!important}.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}.stat{background:#f7fafb;border:1px solid var(--line);border-radius:10px;padding:12px}.stat b{font-size:22px;display:block;margin-top:3px}.actions{display:flex;gap:8px;flex-wrap:wrap}table{width:100%;border-collapse:collapse;font-size:13px;display:block;overflow-x:auto}th,td{border-bottom:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}.notice{padding:11px;background:#effaf8;border-left:4px solid var(--p);border-radius:7px;font-size:13px}.warn{padding:11px;background:#fff7ed;border-left:4px solid #f59e0b;border-radius:7px;font-size:13px}.ok{color:var(--ok);font-weight:700}.check{display:block;padding:7px;border:1px solid var(--line);border-radius:8px;margin:5px 0;font-size:13px}.entry{border:1px solid var(--line);border-radius:10px;padding:12px;margin:10px 0;background:#fff}.badge{font-size:11px;background:#e8f0f0;border-radius:999px;padding:3px 7px}.fileline{margin:5px 0}.small{font-size:12px}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.progressbar{height:8px;background:#e7eeee;border-radius:99px;overflow:hidden;margin-top:8px}.progressbar>span{display:block;height:100%;background:var(--p);width:0}.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:16px;z-index:20}.modalbox{background:#fff;border-radius:14px;padding:20px;max-width:650px;width:100%;max-height:90vh;overflow:auto}.photo{width:90px;height:90px;object-fit:cover;border-radius:8px}.nowrap{white-space:nowrap}
-@media(max-width:750px){.layout{grid-template-columns:1fr}nav{position:static;display:flex;overflow:auto}nav button{white-space:nowrap;width:auto}.row,.row3,.stats{grid-template-columns:1fr 1fr}}
-@media(max-width:500px){.row,.row3,.stats{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}}
-@media print{header,nav,.noprint{display:none!important}.layout{display:block}main{max-width:none}.tab.hidden{display:none!important}.card{box-shadow:none;break-inside:avoid}.print-only{display:block!important}}
-.print-only{display:none}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#0f766e">
+  <meta name="description" content="Aplikasi PWA Dokumentasi & Pelaporan Praktik Profesi Keperawatan Anak (Offline)">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <title>KepAn Profesi • Dokumentasi Praktik Keperawatan Anak</title>
+  <style>
+    :root {
+      --primary: #0f766e;
+      --primary-dark: #115e59;
+      --primary-light: #ccfbf1;
+      --primary-accent: #0d9488;
+      --admin-color: #6366f1;
+      --admin-dark: #4338ca;
+      --admin-light: #e0e7ff;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --success: #16a34a;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --radius: 12px;
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Bar & App Header */
+    header.app-header {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+      color: #ffffff;
+      padding: 14px 18px;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      background: #ffffff;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      flex-shrink: 0;
+    }
+    .brand-icon svg { width: 28px; height: 28px; fill: var(--primary); }
+    .brand-text h1 { font-size: 1.15rem; font-weight: 700; line-height: 1.2; }
+    .brand-text p { font-size: 0.76rem; color: #ccfbf1; }
+
+    /* Header Profile & Actions */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .user-badge {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(4px);
+      padding: 4px 10px 4px 5px;
+      border-radius: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+    .user-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #ffffff;
+      border: 2px solid #ffffff;
+    }
+    .user-info-text {
+      text-align: left;
+      line-height: 1.2;
+    }
+    .user-name { font-size: 0.82rem; font-weight: 700; max-width: 130px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .user-npm { font-size: 0.7rem; color: #d1fae5; }
+    .btn-icon-logout {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: #fff;
+      padding: 7px 11px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .btn-icon-logout:hover { background: rgba(255, 255, 255, 0.32); }
+
+    /* Admin Banner */
+    .admin-banner {
+      background: linear-gradient(90deg, #4f46e5, #6366f1);
+      color: #ffffff;
+      padding: 10px 16px;
+      font-size: 0.85rem;
+      box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
+    }
+    .admin-banner-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .admin-banner-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+    .admin-select-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .admin-select-wrapper label { font-size: 0.8rem; color: #e0e7ff; }
+    .admin-select-wrapper select {
+      background: #ffffff;
+      color: #1e1b4b;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 6px;
+      border: none;
+      font-size: 0.82rem;
+    }
+
+    /* Main Container & Layout */
+    .app-main {
+      flex: 1;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 16px 14px 40px;
+    }
+
+    /* Navigation Tabs */
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin-bottom: 18px;
+      scrollbar-width: thin;
+    }
+    .nav-tab-btn {
+      flex: 1;
+      min-width: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 11px 14px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+    .nav-tab-btn:hover {
+      background: #f1f5f9;
+      color: var(--text);
+    }
+    .nav-tab-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary-dark);
+      box-shadow: 0 4px 8px -2px rgba(15, 118, 110, 0.35);
+    }
+    .nav-tab-btn svg { width: 17px; height: 17px; fill: currentColor; }
+
+    /* Cards & Panels */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-subtitle {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Forms & Inputs */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .form-group.full-width { grid-column: 1 / -1; }
+    label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #334155;
+    }
+    .label-required::after {
+      content: " *";
+      color: var(--danger);
+    }
+    input[type="text"],
+    input[type="password"],
+    input[type="date"],
+    input[type="time"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: var(--text);
+      background-color: #ffffff;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      font-family: inherit;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary-accent);
+      box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+    }
+    textarea {
+      resize: vertical;
+      min-height: 85px;
+    }
+    .form-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+    }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-secondary {
+      background: #e2e8f0;
+      color: #334155;
+    }
+    .btn-secondary:hover { background: #cbd5e1; }
+    .btn-success {
+      background: var(--success);
+      color: #ffffff;
+    }
+    .btn-success:hover { background: #15803d; }
+    .btn-danger {
+      background: var(--danger);
+      color: #ffffff;
+    }
+    .btn-danger:hover { background: #b91c1c; }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn-outline:hover { background: #f1f5f9; }
+    .btn-sm {
+      padding: 6px 10px;
+      font-size: 0.78rem;
+      border-radius: 6px;
+    }
+    .btn-block { width: 100%; }
+
+    /* Badges & Tags */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+    .badge-primary { background: var(--primary-light); color: var(--primary-dark); }
+    .badge-success { background: #dcfce7; color: #166534; }
+    .badge-warning { background: #fef3c7; color: #92400e; }
+    .badge-danger { background: #fee2e2; color: #991b1b; }
+    .badge-admin { background: var(--admin-light); color: var(--admin-dark); }
+    .badge-gray { background: #f1f5f9; color: #475569; }
+
+    /* Camera & Selfie Capture Component */
+    .camera-box {
+      border: 2px dashed #99f6e4;
+      border-radius: var(--radius);
+      padding: 14px;
+      background: #f0fdfa;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .camera-preview-wrapper {
+      width: 100%;
+      max-width: 320px;
+      height: 240px;
+      background: #0f172a;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .camera-preview-wrapper video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scaleX(-1); /* Mirror effect for selfie camera */
+    }
+    .camera-preview-wrapper img.captured-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .camera-placeholder {
+      color: #94a3b8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+    }
+    .camera-placeholder svg { width: 44px; height: 44px; fill: #64748b; }
+    .camera-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    /* Presensi Section Cards */
+    .presensi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+    .presensi-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: var(--shadow);
+    }
+    .presensi-card.status-done {
+      border-color: #86efac;
+      background: #f0fdf4;
+    }
+    .presensi-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .presensi-title {
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .presensi-timestamp-box {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    /* History Lists & Data Tables */
+    .data-table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #ffffff;
+    }
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.85rem;
+    }
+    table.data-table th {
+      background: #f8fafc;
+      color: #475569;
+      font-weight: 700;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    table.data-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    table.data-table tr:last-child td { border-bottom: none; }
+    table.data-table tr:hover { background-color: #f8fafc; }
+    .table-thumb {
+      width: 48px;
+      height: 48px;
+      object-fit: cover;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      transition: transform 0.15s;
+    }
+    .table-thumb:hover { transform: scale(1.08); }
+    .actions-cell {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    /* Entry Cards (Mobile-friendly list) */
+    .entry-card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .entry-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .entry-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .entry-title {
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+    .entry-meta {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 3px;
+    }
+    .entry-body {
+      font-size: 0.85rem;
+      color: #334155;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .entry-detail-row {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      background: #f8fafc;
+      padding: 8px 10px;
+      border-radius: 6px;
+      border-left: 3px solid var(--primary);
+    }
+    .entry-detail-row b { font-size: 0.76rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+    .entry-evidence-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .entry-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      margin-top: 4px;
+    }
+
+    /* Modal Styling */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(3px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      z-index: 100;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s, visibility 0.2s;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-dialog {
+      background: #ffffff;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      transform: scale(0.95);
+      transition: transform 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .modal-overlay.active .modal-dialog {
+      transform: scale(1);
+    }
+    .modal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: #ffffff;
+      z-index: 10;
+    }
+    .modal-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      color: #94a3b8;
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px;
+    }
+    .modal-close:hover { color: var(--danger); }
+    .modal-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .modal-footer {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      background: #f8fafc;
+      border-bottom-left-radius: 16px;
+      border-bottom-right-radius: 16px;
+      position: sticky;
+      bottom: 0;
+    }
+
+    /* Auth Screens (Login / Signup) */
+    .auth-container {
+      max-width: 460px;
+      margin: 30px auto;
+      padding: 0 10px;
+    }
+    .auth-card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 28px 24px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+    }
+    .auth-header {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+    .auth-logo {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border-radius: 16px;
+      margin: 0 auto 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 14px rgba(15, 118, 110, 0.3);
+    }
+    .auth-logo svg { width: 38px; height: 38px; fill: #ffffff; }
+    .auth-title { font-size: 1.3rem; font-weight: 800; color: #0f172a; }
+    .auth-subtitle { font-size: 0.82rem; color: var(--text-muted); margin-top: 4px; }
+    .auth-tabs {
+      display: flex;
+      border-radius: 8px;
+      background: #f1f5f9;
+      padding: 4px;
+      margin-bottom: 20px;
+    }
+    .auth-tab-btn {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      background: none;
+      font-weight: 600;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .auth-tab-btn.active {
+      background: #ffffff;
+      color: var(--primary-dark);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    /* Profile Photo Picker on Signup */
+    .avatar-picker-box {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: #f8fafc;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px dashed #cbd5e1;
+    }
+    .avatar-preview-img {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #e2e8f0;
+      border: 2px solid var(--primary);
+    }
+
+    /* Toast Notification */
+    .toast-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 360px;
+    }
+    .toast {
+      background: #1e293b;
+      color: #ffffff;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: toastSlide 0.25s ease forwards;
+    }
+    .toast.success { background: #065f46; border-left: 4px solid #34d399; }
+    .toast.error { background: #991b1b; border-left: 4px solid #f87171; }
+    .toast.info { background: #1e3a8a; border-left: 4px solid #60a5fa; }
+    @keyframes toastSlide {
+      from { transform: translateY(100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Print / PDF Layout */
+    @media print {
+      body { background: #fff !important; color: #000 !important; }
+      header.app-header,
+      .admin-banner,
+      .nav-tabs,
+      .card-header .btn,
+      .actions-cell,
+      .entry-actions,
+      .no-print,
+      .modal-overlay {
+        display: none !important;
+      }
+      .app-main { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
+      .card { border: none !important; box-shadow: none !important; padding: 0 !important; margin-bottom: 20px !important; }
+      .print-header { display: block !important; margin-bottom: 20px; text-align: center; border-bottom: 2px solid #000; padding-bottom: 12px; }
+      table.data-table { font-size: 10pt !important; }
+      table.data-table th, table.data-table td { border: 1px solid #999 !important; padding: 6px !important; }
+      .table-thumb { width: 60px !important; height: 60px !important; }
+      .page-break { page-break-before: always; }
+    }
+    .print-header { display: none; }
+
+    /* Utility Helpers */
+    .hidden { display: none !important; }
+    .text-center { text-align: center; }
+    .text-right { text-align: right; }
+    .mt-2 { margin-top: 8px; }
+    .mt-4 { margin-top: 16px; }
+    .mb-2 { margin-bottom: 8px; }
+    .flex-between { display: flex; align-items: center; justify-content: space-between; }
+    .empty-state {
+      text-align: center;
+      padding: 30px 14px;
+      color: var(--text-muted);
+    }
+    .empty-state svg { width: 48px; height: 48px; fill: #94a3b8; margin-bottom: 10px; }
+
+    /* Lightbox Modal for Photo Viewing */
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 75vh;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+  </style>
 </head>
 <body>
-<header><div class="head"><h1>🩺 KepAn Track</h1><div>Praktik Keperawatan Anak Sehat & Kondisi Akut — Semester IV</div></div></header>
-<main><div class="layout">
-<nav class="noprint">
-<button class="active" onclick="tab('dash',this)">🏠 Dashboard</button><button onclick="tab('pres',this)">📍 Presensi</button><button onclick="tab('log',this)">📘 Logbook</button><button onclick="tab('askep',this)">🩺 Asuhan Keperawatan</button><button onclick="tab('edu',this)">📣 Edukasi</button><button onclick="tab('case',this)">👥 Studi Kasus</button><button onclick="tab('ref',this)">💭 Refleksi</button><button onclick="tab('sum',this)">📄 Rekap & Export</button>
-</nav>
-<section>
-<div id="dash" class="tab">
-<div class="card"><h2>Profil Mahasiswa</h2><p class="muted">Data tersimpan offline pada perangkat. Pilih mahasiswa untuk mulai mengisi kegiatan.</p><div class="row"><div><label>Nama</label><select id="name" onchange="profile()"><option value="">-- Pilih --</option></select></div><div><label>NPM</label><input id="npm" readonly></div></div><div class="row3"><div><label>Kelompok</label><input id="grp" readonly></div><div><label>Pembimbing</label><input value="Sugeng Hadisaputra, M.Kep., Ns.Sp.Kep.An" readonly></div><div><label>Tempat Praktik</label><input id="place" value="Puskesmas Kecamatan Cipayung & wilayahnya"></div></div><button class="btn secondary" onclick="savePlace()">Simpan Tempat</button></div>
-<div class="card"><h2>Progress</h2><div class="stats"><div class="stat">Logbook<b id="pl">0</b></div><div class="stat">Askep<b id="pa">0</b></div><div class="stat">Edukasi<b id="pe">0</b></div><div class="stat">Studi Kasus<b id="pc">0</b></div><div class="stat">Refleksi<b id="pr">0</b></div></div></div>
-<div class="card"><h2>Daftar Kegiatan</h2><p class="muted">Checklist kegiatan yang sudah dilakukan.</p><div id="activities"></div></div>
-</div>
 
-<div id="pres" class="tab hidden">
-<div class="card"><h2>📍 Presensi Praktik</h2><p class="muted">Presensi dilakukan dua kali: datang dan pulang. Setiap presensi menyimpan foto, tanggal, waktu, dan koordinat GPS. <b>Tidak ada batasan radius lokasi.</b></p><div class="notice"><b>Catatan:</b> lokasi hanya dicatat sebagai bukti. Presensi tetap dapat dilakukan di lokasi mana pun selama GPS tersedia dan izin kamera/lokasi diberikan.</div>
-<div class="row3"><div><label>Pertemuan</label><select id="pd"><option value="31 Agustus 2026">31 Agustus 2026</option><option value="1 September 2026">1 September 2026</option><option value="2 September 2026">2 September 2026</option><option value="3 September 2026">3 September 2026</option><option value="4 September 2026">4 September 2026</option><option value="5 September 2026">5 September 2026</option></select></div><div><label>Lokasi</label><input value="GPS dicatat saat presensi; tanpa radius" readonly></div><div><label>Bukti</label><input value="Foto + waktu + koordinat" readonly></div></div>
-<div class="row"><div class="card" style="margin:0"><h3>🟢 Presensi Datang</h3><p class="muted" id="comeStatus">Belum melakukan presensi datang.</p><video id="camCome" autoplay playsinline style="width:100%;border-radius:10px;background:#111;display:none"></video><canvas id="canCome" class="hidden"></canvas><div class="actions"><button class="btn" onclick="startCamera('come')">📷 Buka Kamera</button><button class="btn secondary" onclick="takeAttendance('come')">✓ Presensi Datang</button><button class="btn danger" onclick="stopCamera()">Tutup Kamera</button></div><img id="photoCome" class="hidden" style="width:100%;margin-top:10px;border-radius:10px" alt="Bukti foto datang"></div>
-<div class="card" style="margin:0"><h3>🔵 Presensi Pulang</h3><p class="muted" id="leaveStatus">Belum melakukan presensi pulang.</p><video id="camLeave" autoplay playsinline style="width:100%;border-radius:10px;background:#111;display:none"></video><canvas id="canLeave" class="hidden"></canvas><div class="actions"><button class="btn" onclick="startCamera('leave')">📷 Buka Kamera</button><button class="btn secondary" onclick="takeAttendance('leave')">✓ Presensi Pulang</button><button class="btn danger" onclick="stopCamera()">Tutup Kamera</button></div><img id="photoLeave" class="hidden" style="width:100%;margin-top:10px;border-radius:10px" alt="Bukti foto pulang"></div></div></div>
-<div class="card"><h2>Riwayat Presensi</h2><div id="presList"></div></div>
-</div>
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="header-content">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14h-2v-4H6v-2h4V7h2v4h4v2h-4v4z"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>KepAn Profesi</h1>
+          <p>Dokumentasi & Pelaporan Praktik Keperawatan Anak</p>
+        </div>
+      </div>
 
-<div id="log" class="tab hidden"><div class="card"><h2>Logbook Harian</h2><div class="row3"><div><label>Hari / Tanggal</label><input id="ld" type="date" min="2026-08-31" max="2026-09-05"></div><div><label>Unit / Poli</label><input id="ll" placeholder="Poli Anak / Posyandu / Ruang Rawat"></div><div><label>Nama Pasien / Kasus</label><input id="lc" placeholder="Gunakan inisial, bukan nama lengkap"></div></div>
-<div class="card" style="margin:14px 0;padding:14px;background:#f9fbfb"><label style="margin-top:0">Kategori</label><div class="row"><label><input type="radio" name="logCategory" value="Anak Sehat" checked> Anak Sehat</label><label><input type="radio" name="logCategory" value="Anak Sakit"> Anak Sakit</label></div><div style="margin-top:12px"><label>Kompetensi</label><select id="logCompetencyGroup"></select><label>Sub Kompetensi (Checklist)</label><div id="logCompetencyItems"></div></div></div>
-<label>Aktivitas & Asuhan Keperawatan Anak</label><textarea id="lx" placeholder="Tuliskan aktivitas nyata yang dilakukan, tindakan, dan keterampilan yang diterapkan..."></textarea><label>Hasil & Evaluasi</label><textarea id="lres" placeholder="Hasil tindakan, respons pasien/orang tua, evaluasi pembelajaran..."></textarea><div class="row3"><div><label>Tingkat Kemandirian</label><select id="lind"><option>Mandiri</option><option>Supervisi</option></select></div><div><label>Paraf CI</label><select id="lci"><option>Belum diverifikasi</option><option>Sudah diverifikasi</option><option>Disetujui CI</option></select></div><div><label>Status</label><input value="Logbook mahasiswa" readonly></div></div><button class="btn" onclick="addLog()">+ Simpan Logbook</button><button class="btn secondary" onclick="resetLogForm()" style="margin-left:6px">🔄 Reset Form</button></div><div class="card"><div id="logs"></div></div></div>
+      <div class="header-actions" id="headerUserSection" style="display: none;">
+        <div class="user-badge" id="userBadge">
+          <img id="headerUserAvatar" class="user-avatar" src="" alt="Foto Resmi">
+          <div class="user-info-text">
+            <div class="user-name" id="headerUserName">Nama Mahasiswa</div>
+            <div class="user-npm" id="headerUserNPM">NPM: -</div>
+          </div>
+        </div>
+        <button class="btn-icon-logout" onclick="logoutApp()" title="Keluar / Ganti Akun">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+          </svg>
+          <span>Keluar</span>
+        </button>
+      </div>
+    </div>
+  </header>
 
-<div id="askep" class="tab hidden"><div class="card"><h2>Asuhan Keperawatan Anak</h2><p class="muted">Boleh dibuat berkali-kali. Bukti pendukung dan referensi wajib. Gunakan inisial pasien.</p><label>Judul Kasus</label><input id="aj"><div class="row3"><div><label>Inisial Pasien</label><input id="ai"></div><div><label>Tanggal Lahir</label><input id="adob" type="date"></div><div><label>Usia</label><input id="au"></div></div><div class="row3"><div><label>Jenis Kelamin</label><select id="asex"><option>Laki-laki</option><option>Perempuan</option></select></div><div><label>Berat Badan (kg)</label><input id="awb"></div><div><label>Tinggi/Panjang Badan (cm)</label><input id="aht"></div></div><label>Tanggal Pemeriksaan</label><input id="adt" type="date" min="2026-08-31" max="2026-09-05"><label>Keluhan Utama</label><textarea id="ak"></textarea><div class="row3"><div><label>Frekuensi Napas</label><input id="arr"></div><div><label>Frekuensi Nadi</label><input id="ahr"></div><div><label>Suhu</label><input id="at"></div></div><label>Riwayat Kesehatan</label><textarea id="ahist"></textarea><label>Pengkajian & Pemeriksaan Fisik</label><textarea id="aphys"></textarea><label>Analisis Data</label><textarea id="aanal"></textarea><label>Diagnosis/Masalah Keperawatan</label><textarea id="adiag"></textarea><label>Intervensi</label><textarea id="aint"></textarea><label>Implementasi</label><textarea id="aimp"></textarea><label>Evaluasi</label><textarea id="aeval"></textarea><label>Bukti Pendukung (JPG/PNG/PDF/DOC/DOCX, boleh banyak)</label><input id="afiles" type="file" multiple accept=".jpg,.jpeg,.png,.pdf,.doc,.docx"><label>Referensi (wajib, satu per baris)</label><textarea id="aref"></textarea><button class="btn" onclick="saveAsk()">+ Simpan Asuhan</button><button class="btn secondary" onclick="resetAskForm()" style="margin-left:6px">🔄 Reset Form</button></div><div class="card"><h2>Daftar Asuhan Keperawatan</h2><div id="askList"></div></div></div>
+  <!-- Admin Mode Bar (Visible only when logged in as admin) -->
+  <div class="admin-banner hidden" id="adminBanner">
+    <div class="admin-banner-inner">
+      <div class="admin-banner-left">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#fbbf24">
+          <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .55-.45 1-1 1H6c-.55 0-1-.45-1-1v-1h14v1z"/>
+        </svg>
+        <span>Mode Administrator (Akses Penuh Seluruh User & Data)</span>
+      </div>
+      <div class="admin-select-wrapper">
+        <label for="adminStudentSelect">Lihat Data Mahasiswa:</label>
+        <select id="adminStudentSelect" onchange="onAdminStudentChange()">
+          <option value="ALL">-- Seluruh Mahasiswa (Semua Data) --</option>
+        </select>
+        <button class="btn btn-sm btn-secondary" onclick="openUserManagementModal()" style="font-size:0.75rem; padding: 4px 8px;">
+          👥 Kelola Akun
+        </button>
+      </div>
+    </div>
+  </div>
 
-<div id="edu" class="tab hidden"><div class="card"><h2>Edukasi Kesehatan</h2><p class="muted">Boleh dibuat berkali-kali. Bukti dan sumber referensi wajib.</p><div class="row3"><div><label>Tanggal</label><input id="ed" type="date" min="2026-08-31" max="2026-09-05"></div><div><label>Topik</label><input id="et"></div><div><label>Sasaran</label><input id="es"></div></div><div class="row3"><div><label>Tempat</label><input id="ep"></div><div><label>Metode</label><input id="em"></div><div><label>Media</label><input id="ev"></div></div><label>Rancangan SAP</label><textarea id="esap"></textarea><label>Materi Edukasi</label><textarea id="ex"></textarea><label>Pelaksanaan & Respons Sasaran</label><textarea id="eh"></textarea><label>Evaluasi</label><textarea id="eeval"></textarea><label>Bukti Pendukung (SAP, materi, foto, dll; boleh banyak)</label><input id="efiles" type="file" multiple accept=".jpg,.jpeg,.png,.pdf,.doc,.docx"><label>Sumber Referensi (wajib, satu per baris)</label><textarea id="eref"></textarea><button class="btn" onclick="saveEdu()">+ Simpan Edukasi</button><button class="btn secondary" onclick="resetEduForm()" style="margin-left:6px">🔄 Reset Form</button></div><div class="card"><h2>Daftar Edukasi</h2><div id="edulist"></div></div></div>
+  <!-- Main Container -->
+  <main class="app-main">
 
-<div id="case" class="tab hidden"><div class="card"><h2>Studi Kasus Kelompok</h2><p class="muted">Tetap dicatat per mahasiswa sesuai desain aplikasi. Topik mengikuti kelompok.</p><div id="caseInfo" class="notice"></div><label>Judul</label><input id="cj"><div class="row3"><div><label>Inisial Pasien</label><input id="ci"></div><div><label>Tanggal Lahir</label><input id="cdob" type="date"></div><div><label>Usia</label><input id="cu"></div></div><div class="row3"><div><label>Jenis Kelamin</label><select id="csex"><option>Laki-laki</option><option>Perempuan</option></select></div><div><label>Berat Badan (kg)</label><input id="cwb"></div><div><label>Tinggi/Panjang Badan (cm)</label><input id="cht"></div></div><label>Tanggal Pemeriksaan</label><input id="cdt" type="date" min="2026-08-31" max="2026-09-05"><label>Keluhan Utama</label><textarea id="ck"></textarea><div class="row3"><div><label>Frekuensi Napas</label><input id="crr"></div><div><label>Frekuensi Nadi</label><input id="chr"></div><div><label>Suhu</label><input id="ct"></div></div><label>Riwayat Kesehatan</label><textarea id="chist"></textarea><label>Pengkajian & Pemeriksaan Fisik</label><textarea id="cphys"></textarea><label>Analisis Data</label><textarea id="canal"></textarea><label>Diagnosis/Masalah Keperawatan</label><textarea id="cdiag"></textarea><label>Intervensi</label><textarea id="cint"></textarea><label>Implementasi</label><textarea id="cimp"></textarea><label>Evaluasi</label><textarea id="ceval"></textarea><label>Bukti Pendukung (boleh banyak)</label><input id="cfiles" type="file" multiple accept=".jpg,.jpeg,.png,.pdf,.doc,.docx"><label>Referensi (boleh banyak)</label><textarea id="cref"></textarea><button class="btn" onclick="saveCase()">+ Simpan Studi Kasus</button><button class="btn secondary" onclick="resetCaseForm()" style="margin-left:6px">🔄 Reset Form</button></div><div class="card"><h2>Daftar Studi Kasus</h2><div id="caseList"></div></div></div>
+    <!-- Auth View (Login / Signup) -->
+    <div id="authView" class="auth-container">
+      <div class="auth-card">
+        <div class="auth-header">
+          <div class="auth-logo">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/>
+            </svg>
+          </div>
+          <h2 class="auth-title">Praktik Profesi Kep. Anak</h2>
+          <p class="auth-subtitle">Sistem Dokumentasi, Presensi Selfie, Logbook & Laporan Asuhan</p>
+        </div>
 
-<div id="ref" class="tab hidden"><div class="card"><h2>Refleksi — 5 September 2026</h2><p class="muted">Diisi setelah refleksi dan studi kasus di Laboratorium Keperawatan Anak.</p><label>Pengalaman paling bermakna</label><textarea id="r1"></textarea><label>Kompetensi yang sudah dikuasai</label><textarea id="r2"></textarea><label>Kompetensi yang perlu ditingkatkan</label><textarea id="r3"></textarea><label>Tantangan komunikasi/asuhan</label><textarea id="r4"></textarea><label>Rencana perbaikan</label><textarea id="r5"></textarea><button class="btn" onclick="saveRef()">Simpan Refleksi</button><button class="btn secondary" onclick="resetRefForm()" style="margin-left:6px">🔄 Reset Form</button></div></div>
+        <div class="auth-tabs">
+          <button class="auth-tab-btn active" id="tabBtnLogin" onclick="switchAuthTab('login')">Masuk (Login)</button>
+          <button class="auth-tab-btn" id="tabBtnSignup" onclick="switchAuthTab('signup')">Daftar Akun Mahasiswa</button>
+        </div>
 
-<div id="sum" class="tab hidden"><div class="card"><h2>📄 Rekap & Export</h2><p class="muted">Seluruh data periode 31 Agustus–5 September 2026 tetap disimpan. JSON adalah arsip lengkap dan paling aman untuk mengambil kembali seluruh data beserta bukti file.</p><div id="summary"></div><div class="actions noprint"><button class="btn" onclick="exportAllJSON()">📦 Download JSON Lengkap</button><button class="btn secondary" onclick="exportSummaryCSV()">📊 Export Rekap CSV</button><button class="btn secondary" onclick="exportLogCSV()">📘 Export Logbook CSV</button><button class="btn secondary" onclick="exportAttendanceCSV()">📍 Export Presensi CSV</button><button class="btn secondary" onclick="exportCompetencyCSV()">🎯 Export Kompetensi CSV</button><button class="btn secondary" onclick="printWithPassword()">🖨️ Cetak / Simpan PDF</button></div></div></div>
-</section></div></main><footer style="text-align:center;color:#64748b;padding:20px;font-size:12px">KepAn Track v4 • Alat bantu pembelajaran praktik</footer>
+        <!-- Login Form -->
+        <form id="loginForm" onsubmit="handleLogin(event)">
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label class="label-required">NPM Mahasiswa / Username Admin</label>
+            <input type="text" id="loginNPM" placeholder="Masukkan NPM atau 'admin'" required autocomplete="username">
+          </div>
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label class="label-required">Kata Sandi</label>
+            <input type="password" id="loginPassword" placeholder="Masukkan kata sandi" required autocomplete="current-password">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Masuk ke Aplikasi</button>
+          <div style="margin-top: 14px; text-align: center; font-size: 0.78rem; color: #64748b;">
+            💡 Admin: user <b>admin</b> | pass <b>admin</b>
+          </div>
+        </form>
 
-<div id="pwModal" class="modal hidden"><div class="modalbox"><h3>🔐 Akses Pembimbing</h3><p class="muted">Masukkan password untuk export/cetak/reset arsip.</p><input id="pwInput" type="password" autocomplete="off"><div class="actions"><button class="btn" onclick="confirmPassword()">Lanjut</button><button class="btn secondary" onclick="closePassword()">Batal</button></div><p id="pwError" class="small" style="color:#b91c1c"></p></div></div>
+        <!-- Signup Form -->
+        <form id="signupForm" class="hidden" onsubmit="handleSignup(event)">
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label class="label-required">Nama Lengkap Mahasiswa</label>
+            <input type="text" id="signupName" placeholder="Contoh: Ns. Siti Rahmawati, S.Kep" required>
+          </div>
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label class="label-required">NPM (Nomor Pokok Mahasiswa)</label>
+            <input type="text" id="signupNPM" placeholder="Contoh: 202410123" required>
+          </div>
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label class="label-required">Jenis Kelamin</label>
+            <select id="signupGender" required>
+              <option value="Perempuan">Perempuan</option>
+              <option value="Laki-laki">Laki-laki</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label class="label-required">Foto Resmi Mahasiswa</label>
+            <div class="avatar-picker-box">
+              <img id="signupAvatarPreview" class="avatar-preview-img" src="icon.svg" alt="Preview Foto">
+              <div style="flex: 1;">
+                <input type="file" id="signupAvatarInput" accept="image/*" onchange="handleAvatarFileSelect(event)" style="display: none;">
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                  <button type="button" class="btn btn-sm btn-secondary" onclick="$('signupAvatarInput').click()">📁 Pilih File</button>
+                  <button type="button" class="btn btn-sm btn-outline" onclick="openDirectCamera('signup')">📷 Foto Langsung</button>
+                </div>
+                <div class="form-hint" style="margin-top: 4px;">Gunakan foto resmi seragam perawat/almamater.</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label class="label-required">Buat Kata Sandi</label>
+            <input type="password" id="signupPassword" placeholder="Minimal 4 karakter" required minlength="4">
+          </div>
+          <button type="submit" class="btn btn-success btn-block">Daftar & Masuk Otomatis</button>
+        </form>
+      </div>
+    </div>
 
-<script>
-const S=[['245130002','Dinda Oktafia Clarissa',1],['245130004','Destyani Echa Rahmawati',1],['245130006','Renandya Isyabel Azzahra',1],['245130007','Salwa Maqudnia',1],['245130008','Indah Retno Kinasih',1],['245130009','Ira Numnalia',1],['245130011','Abim Dafa Ghifari',2],['245130012','Suci Permata Sari',3],['245130014','Nabilah Nur Fitriyani',2],['245130015','Khesya Adhelia Balqis',2],['245130016','Silry Pizqi',2],['245130017','Meyrin Larasati',2],['245130018','Ilham Aryo Wiguno',2],['245130020','Nur Hamidah',3],['245130022','Dinda Ayu Amalia',3],['245130024','Nabila Tussyawaliyah',3],['245130025','Humaira Sofwatun Nida',3],['245130026','Fika Elissa Diswaputri',3],['245130027','Rahma Aulia Putri',4],['245130028','Pina Rizkiya',4],['245130029','Singgi Puja Rizlona',4],['245130030','Chalista Nayla',4],['245130031','Zahra Amalia',4],['245130032','Nuraini',4]];
-const TOP={1:'Demam / Kejang Demam',2:'Diare dan Dehidrasi',3:'Gangguan Pernapasan Akut',4:'Gangguan Tumbuh Kembang dan Nutrisi'};
-const ACT=['Orientasi','Anak sehat tumbuh kembang','Anak sehat imunisasi','Asuhan Keperawatan anak sakit','Edukasi','Refleksi & studi kasus di Laboratorium Kep. Anak'];
-const COMP={
-'Anak Sehat':[
-{title:'SDIDTK',children:['Motorik kasar','Motorik halus','Bahasa','Kemandirian','KPSP']},
-{title:'Antropometri & Status Gizi',children:['BB','PB/TB','LK','Grafik CDC/WHO','Z-score']},
-{title:'Imunisasi Dasar & Lanjutan',children:['BCG','DPT-HB-Hib','Polio','Campak/MR','Edukasi KIPI kepada orang tua']}],
-'Anak Sakit':[
-{title:'Algoritma MTBS/MTBM',children:['Pengkajian','Triase gejala utama','Batuk','Diare','Demam','Masalah gizi','Klasifikasi penyakit','Rencana tindakan']},
-{title:'Terapi Respirasi',children:['Inhalasi/nebulizer','Asma','Bronkitis','ISPA','Pemantauan SpO₂']},
-{title:'Rehidrasi & Manajemen Cairan',children:['Pengkajian dehidrasi','Asuhan anak diare','Oralit/zinc sesuai protokol']},
-{title:'Manajemen Hipertermia',children:['Kompres hangat','Intake-output','Edukasi dosis antipiretik/parasetamol yang aman']} ]};
-const DB_NAME='KepAnTrackDB_v4', DB_STORE='app';
-let d={version:4,p:{},l:[],a:[],e:[],c:[],r:{},pres:[],archive:[],activities:[]};
-let cameraStream=null,activeCamera=null,pendingAction=null;
-const $=id=>document.getElementById(id),esc=x=>String(x??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
-function uid(prefix='ID'){return prefix+Date.now()+Math.random().toString(36).slice(2,8)}
-function openDB(){return new Promise((resolve,reject)=>{const r=indexedDB.open(DB_NAME,1);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains(DB_STORE))r.result.createObjectStore(DB_STORE)};r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
-async function dbGet(){const db=await openDB();return new Promise((resolve,reject)=>{const tx=db.transaction(DB_STORE,'readonly'),r=tx.objectStore(DB_STORE).get('state');r.onsuccess=()=>resolve(r.result||null);r.onerror=()=>reject(r.error)})}
-async function dbPut(value){const db=await openDB();return new Promise((resolve,reject)=>{const tx=db.transaction(DB_STORE,'readwrite');tx.objectStore(DB_STORE).put(value,'state');tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)})}
-async function save(){d.version=4;try{await dbPut(d)}catch(e){localStorage.setItem('kepantrack_v4_fallback',JSON.stringify(d));alert('Penyimpanan utama gagal; data disimpan sementara di browser.')}progress()}
-function normalizeData(x){if(!x||typeof x!=='object')return d;const n={...d,...x};n.p=n.p||{};n.l=Array.isArray(n.l)?n.l:[];n.a=Array.isArray(n.a)?n.a:(n.a?[n.a]:[]);n.e=Array.isArray(n.e)?n.e:[];n.c=Array.isArray(n.c)?n.c:(n.c?[n.c]:[]);n.pres=Array.isArray(n.pres)?n.pres:[];n.archive=Array.isArray(n.archive)?n.archive:[];n.activities=Array.isArray(n.activities)?n.activities:[];n.r=n.r||{};return n}
-async function migrate(){let x=await dbGet();if(x){d=normalizeData(x);return}try{const old=JSON.parse(localStorage.getItem('kepantrack_v3')||localStorage.getItem('kepantrack')||'null');if(old){d=normalizeData(old);await dbPut(d)}}catch(e){} }
-function tab(id,b){document.querySelectorAll('.tab').forEach(x=>x.classList.add('hidden'));$(id).classList.remove('hidden');document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');if(id==='sum')refreshSummary()}
-async function init(){S.forEach(s=>{let o=document.createElement('option');o.value=s[0];o.textContent=s[1];$('name').appendChild(o)});await migrate();if(d.p.npm){$('name').value=d.p.npm;fillProfile()}renderCompetencyList();renderAll();}
-function currentN(){return d.p.npm||''}function currentStudent(){if(!currentN())return null;return {npm:d.p.npm,name:d.p.name,group:d.p.group}}
-async function profile(){const s=S.find(x=>x[0]===$('name').value);if(!s)return;d.p={...d.p,npm:s[0],name:s[1],group:s[2],place:d.p.place||$('place').value};fillProfile();await save();renderAll()}
-function fillProfile(){$('npm').value=d.p.npm||'';$('grp').value=d.p.group?'Kelompok '+d.p.group:'';$('place').value=d.p.place||'Puskesmas Kecamatan Cipayung & wilayahnya'}
-async function savePlace(){if(!currentN()){alert('Pilih mahasiswa terlebih dahulu.');return}d.p.place=$('place').value.trim();await save();refreshSummary();alert('Tempat praktik disimpan.')}
-function renderActivities(){$('activities').innerHTML=ACT.map((a,i)=>`<label class="check"><input type="checkbox" ${d.activities[i]?'checked':''} onchange="toggleActivity(${i},this.checked)"> ${esc(a)}</label>`).join('')}
-async function toggleActivity(i,v){d.activities[i]=v;await save()}
-function renderCompetencyList(){const cat=document.querySelector('input[name="logCategory"]:checked')?.value||'Anak Sehat',ge=$('logCompetencyGroup'),ic=$('logCompetencyItems');if(!ge||!ic)return;const groups=COMP[cat]||[];ge.innerHTML=groups.map(g=>`<option value="${esc(g.title)}">${esc(g.title)}</option>`).join('');const update=()=>{const g=groups.find(x=>x.title===ge.value)||groups[0];ic.innerHTML=(g?.children||[]).map(x=>`<label style="display:flex;gap:8px;align-items:center;font-weight:400;margin:0"><input type="checkbox" class="logSubItem" value="${esc(x)}"> ${esc(x)}</label>`).join('')};ge.onchange=update;update()}
-document.querySelectorAll('input[name="logCategory"]').forEach(x=>x.addEventListener('change',renderCompetencyList));
-function validateDate(v,label){if(!v){alert(label+' wajib diisi.');return false}if(v<'2026-08-31'||v>'2026-09-05'){alert(label+' harus berada pada periode 31 Agustus–5 September 2026.');return false}return true}
-async function addLog(){if(!currentN()){alert('Pilih mahasiswa terlebih dahulu.');return}if(!validateDate($('ld').value,'Tanggal logbook'))return;if(!$('lx').value.trim()){alert('Aktivitas wajib diisi.');return}const cat=document.querySelector('input[name="logCategory"]:checked')?.value||'Anak Sehat',group=$('logCompetencyGroup').value||'',items=[...document.querySelectorAll('.logSubItem:checked')].map(x=>x.value);d.l.push({id:uid('L'),npm:currentN(),name:d.p.name,group:d.p.group,date:$('ld').value,loc:$('ll').value,cas:$('lc').value,cat,competencyGroup:group,competencies:items,text:$('lx').value,res:$('lres').value,ind:$('lind').value,ci:$('lci').value,createdAt:new Date().toISOString()});await save();renderLogs();resetLogForm(false);alert('Logbook tersimpan.')}
-function renderLogs(){const rows=d.l.filter(x=>x.npm===currentN());$('logs').innerHTML=rows.length?'<table><tr><th>Tgl</th><th>Unit</th><th>Kategori/Kompetensi</th><th>Aktivitas</th><th>Hasil</th><th>Mandiri</th><th>CI</th></tr>'+rows.slice().reverse().map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.loc)}</td><td>${esc(x.cat)}<br>${esc(x.competencyGroup||'-')}<br>${esc((x.competencies||[]).join(', ')||'-')}</td><td>${esc(x.text)}</td><td>${esc(x.res)}</td><td>${esc(x.ind)}</td><td>${esc(x.ci)}</td></tr>`).join('')+'</table>':'<p class="muted">Belum ada entri.</p>'}
-function filesToData(input){return Promise.all([...input.files].map(f=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res({name:f.name,type:f.type,size:f.size,data:r.result});r.onerror=rej;r.readAsDataURL(f)})))}
-function validateAsk(){if(!currentN()){alert('Pilih mahasiswa terlebih dahulu.');return false}const req=[['aj','Judul kasus'],['ai','Inisial pasien'],['adt','Tanggal pemeriksaan'],['ak','Keluhan utama'],['aphys','Pengkajian & pemeriksaan fisik'],['adiag','Diagnosis/masalah keperawatan'],['aint','Intervensi'],['aimp','Implementasi'],['aeval','Evaluasi'],['aref','Referensi']];for(const [id,l] of req){if(!$(id).value.trim()){alert(l+' wajib diisi.');return false}}return validateDate($('adt').value,'Tanggal pemeriksaan')}
-async function saveAsk(){if(!validateAsk())return;const files=await filesToData($('afiles'));d.a.push({id:uid('A'),npm:currentN(),title:$('aj').value,initial:$('ai').value,dob:$('adob').value,age:$('au').value,sex:$('asex').value,wb:$('awb').value,ht:$('aht').value,date:$('adt').value,complaint:$('ak').value,rr:$('arr').value,hr:$('ahr').value,temp:$('at').value,history:$('ahist').value,physical:$('aphys').value,analysis:$('aanal').value,diagnosis:$('adiag').value,intervention:$('aint').value,implementation:$('aimp').value,evaluation:$('aeval').value,refs:$('aref').value.split('\n').filter(x=>x.trim()),files,createdAt:new Date().toISOString()});await save();renderAsk();resetAskForm(false);alert('Asuhan keperawatan tersimpan.')}
-function renderFiles(fs){return(fs||[]).map(f=>`<div class="fileline">📎 ${esc(f.name)} <a href="${f.data}" target="_blank" rel="noopener">Buka</a></div>`).join('')||'Tidak ada bukti.'}
-function renderAsk(){const rows=d.a.filter(x=>x.npm===currentN());$('askList').innerHTML=rows.length?rows.slice().reverse().map(x=>`<div class="entry"><h3>${esc(x.title||'Asuhan Keperawatan')} <span class="badge">${esc(x.date||'-')}</span></h3><p><b>Identitas:</b> ${esc(x.initial)} • TTL ${esc(x.dob)} • ${esc(x.age)} • ${esc(x.sex)} • BB ${esc(x.wb)} kg • TB/PB ${esc(x.ht)} cm</p><p><b>Keluhan:</b> ${esc(x.complaint)}</p><p><b>TTV:</b> RR ${esc(x.rr)} • Nadi ${esc(x.hr)} • Suhu ${esc(x.temp)}</p><details><summary>Dokumentasi lengkap</summary><p><b>Riwayat:</b> ${esc(x.history)}</p><p><b>Pengkajian:</b> ${esc(x.physical)}</p><p><b>Analisis:</b> ${esc(x.analysis)}</p><p><b>Diagnosis:</b> ${esc(x.diagnosis)}</p><p><b>Intervensi:</b> ${esc(x.intervention)}</p><p><b>Implementasi:</b> ${esc(x.implementation)}</p><p><b>Evaluasi:</b> ${esc(x.evaluation)}</p><p><b>Bukti:</b><br>${renderFiles(x.files)}</p><p><b>Referensi:</b><br>${(x.refs||[]).map(esc).join('<br>')}</p></details></div>`).join(''):'<p class="muted">Belum ada asuhan.</p>'}
-async function saveEdu(){if(!currentN()){alert('Pilih mahasiswa terlebih dahulu.');return}for(const [id,l] of [['ed','Tanggal'],['et','Topik'],['es','Sasaran'],['ex','Materi edukasi'],['eref','Referensi']])if(!$(id).value.trim()){alert(l+' wajib diisi.');return}if(!validateDate($('ed').value,'Tanggal'))return;const files=await filesToData($('efiles'));d.e.push({id:uid('E'),npm:currentN(),date:$('ed').value,topic:$('et').value,target:$('es').value,place:$('ep').value,method:$('em').value,media:$('ev').value,sap:$('esap').value,material:$('ex').value,result:$('eh').value,evaluation:$('eeval').value,refs:$('eref').value.split('\n').filter(x=>x.trim()),files,createdAt:new Date().toISOString()});await save();renderEdu();resetEduForm(false);alert('Edukasi tersimpan.')}
-function renderEdu(){const rows=d.e.filter(x=>x.npm===currentN());$('edulist').innerHTML=rows.length?rows.slice().reverse().map(x=>`<div class="entry"><h3>${esc(x.topic||'Edukasi')} <span class="badge">${esc(x.date||'-')}</span></h3><p><b>Sasaran:</b> ${esc(x.target)} • <b>Tempat:</b> ${esc(x.place)} • <b>Metode:</b> ${esc(x.method)}</p><details><summary>Dokumentasi lengkap</summary><p><b>SAP:</b> ${esc(x.sap)}</p><p><b>Materi:</b> ${esc(x.material)}</p><p><b>Pelaksanaan/Respons:</b> ${esc(x.result)}</p><p><b>Evaluasi:</b> ${esc(x.evaluation)}</p><p><b>Bukti:</b><br>${renderFiles(x.files)}</p><p><b>Referensi:</b><br>${(x.refs||[]).map(esc).join('<br>')}</p></details></div>`).join(''):'<p class="muted">Belum ada edukasi.</p>'}
-function renderCaseInfo(){const g=d.p.group;if(!g){$('caseInfo').innerHTML='⚠️ Pilih mahasiswa di Dashboard untuk melihat topik kelompok.';return}$('caseInfo').innerHTML=`<b>📌 Kelompok ${esc(g)}: ${esc(TOP[g]||'-')}</b><br><span class="small">Buat studi kasus sesuai topik pembelajaran kelompok.</span>`}
-async function saveCase(){if(!currentN()){alert('Pilih mahasiswa terlebih dahulu.');return}for(const [id,l] of [['cj','Judul'],['ci','Inisial pasien'],['cdt','Tanggal pemeriksaan']])if(!$(id).value.trim()){alert(l+' wajib diisi.');return}if(!validateDate($('cdt').value,'Tanggal pemeriksaan'))return;const files=await filesToData($('cfiles'));d.c.push({id:uid('C'),npm:currentN(),group:d.p.group,title:$('cj').value,initial:$('ci').value,dob:$('cdob').value,age:$('cu').value,sex:$('csex').value,wb:$('cwb').value,ht:$('cht').value,date:$('cdt').value,complaint:$('ck').value,rr:$('crr').value,hr:$('chr').value,temp:$('ct').value,history:$('chist').value,physical:$('cphys').value,analysis:$('canal').value,diagnosis:$('cdiag').value,intervention:$('cint').value,implementation:$('cimp').value,evaluation:$('ceval').value,refs:$('cref').value.split('\n').filter(x=>x.trim()),files,createdAt:new Date().toISOString()});await save();renderCase();resetCaseForm(false);alert('Studi kasus tersimpan.')}
-function renderCase(){const rows=d.c.filter(x=>x.npm===currentN());$('caseList').innerHTML=rows.length?rows.slice().reverse().map(x=>`<div class="entry"><h3>${esc(x.title||'Studi Kasus')} <span class="badge">Kelompok ${esc(x.group)}</span></h3><p><b>Identitas:</b> ${esc(x.initial)} • TTL ${esc(x.dob)} • ${esc(x.age)} • ${esc(x.sex)} • BB ${esc(x.wb)} kg • TB/PB ${esc(x.ht)} cm</p><p><b>Keluhan:</b> ${esc(x.complaint)}</p><p><b>TTV:</b> RR ${esc(x.rr)} • Nadi ${esc(x.hr)} • Suhu ${esc(x.temp)}</p><details><summary>Dokumentasi lengkap</summary><p><b>Riwayat:</b> ${esc(x.history)}</p><p><b>Pengkajian:</b> ${esc(x.physical)}</p><p><b>Analisis:</b> ${esc(x.analysis)}</p><p><b>Diagnosis:</b> ${esc(x.diagnosis)}</p><p><b>Intervensi:</b> ${esc(x.intervention)}</p><p><b>Implementasi:</b> ${esc(x.implementation)}</p><p><b>Evaluasi:</b> ${esc(x.evaluation)}</p><p><b>Bukti:</b><br>${renderFiles(x.files)}</p><p><b>Referensi:</b><br>${(x.refs||[]).map(esc).join('<br>')||'-'}</p></details></div>`).join(''):'<p class="muted">Belum ada studi kasus.</p>'}
-async function saveRef(){if(!currentN()){alert('Pilih mahasiswa terlebih dahulu.');return}if(!$('r1').value.trim()){alert('Refleksi wajib diisi.');return}d.r={npm:currentN(),date:'05/09/2026',r1:$('r1').value,r2:$('r2').value,r3:$('r3').value,r4:$('r4').value,r5:$('r5').value,createdAt:new Date().toISOString()};await save();alert('Refleksi tersimpan.')}
-function progress(){const n=currentN();$('pl').textContent=d.l.filter(x=>x.npm===n).length;$('pa').textContent=d.a.filter(x=>x.npm===n).length;$('pe').textContent=d.e.filter(x=>x.npm===n).length;$('pc').textContent=d.c.filter(x=>x.npm===n).length;$('pr').textContent=d.r.npm===n&&d.r.r1?'1':'0'}
-function renderPres(){const rows=d.pres.filter(x=>x.npm===currentN());$('presList').innerHTML=rows.length?'<table><tr><th>Pertemuan</th><th>Jenis</th><th>Tanggal</th><th>Jam</th><th>GPS</th><th>Akurasi</th><th>Foto</th></tr>'+rows.slice().reverse().map(x=>`<tr><td>${esc(x.session)}</td><td>${x.type==='come'?'Datang':'Pulang'}</td><td>${esc(x.date)}</td><td>${esc(x.time)}</td><td>${Number(x.lat).toFixed(6)}, ${Number(x.lon).toFixed(6)}</td><td>${Math.round(x.accuracy||0)} m</td><td><img class="photo" src="${x.photo}" alt="Bukti presensi"></td></tr>`).join('')+'</table>':'<p class="muted">Belum ada presensi.</p>';const st=currentStudent(),session=$('pd').value;if(st){const c=d.pres.find(x=>x.npm===st.npm&&x.session===session&&x.type==='come'),l=d.pres.find(x=>x.npm===st.npm&&x.session===session&&x.type==='leave');$('comeStatus').textContent=c?'Tercatat: '+c.date+' '+c.time:'Belum melakukan presensi datang.';$('leaveStatus').textContent=l?'Tercatat: '+l.date+' '+l.time:'Belum melakukan presensi pulang.'}}
-$('pd').addEventListener('change',renderPres);
-function startCamera(type){if(!currentStudent()){alert('Pilih nama mahasiswa di Dashboard terlebih dahulu.');return}stopCamera();activeCamera=type;const v=$(type==='come'?'camCome':'camLeave');if(!navigator.mediaDevices?.getUserMedia){alert('Kamera tidak tersedia pada browser ini.');return}navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false}).then(s=>{cameraStream=s;v.srcObject=s;v.style.display='block'}).catch(()=>alert('Kamera tidak dapat diakses. Gunakan HTTPS/localhost dan izinkan kamera.'))}
-function stopCamera(){if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null}['camCome','camLeave'].forEach(id=>$(id).style.display='none')}
-function getLocation(){return new Promise((resolve,reject)=>{if(!navigator.geolocation)return reject(new Error('GPS tidak tersedia.'));navigator.geolocation.getCurrentPosition(p=>resolve({lat:p.coords.latitude,lon:p.coords.longitude,accuracy:p.coords.accuracy}),()=>reject(new Error('Lokasi tidak dapat diperoleh. Aktifkan layanan lokasi dan izin GPS.')),{enableHighAccuracy:true,timeout:15000,maximumAge:0})})}
-function timeIntegrity(){const now=Date.now(),last=Number(localStorage.getItem('kepan_last_time')||0);let warning='';if(last&&now+60000<last)warning='Perubahan waktu perangkat terdeteksi';localStorage.setItem('kepan_last_time',String(now));return warning}
-async function takeAttendance(type){const st=currentStudent();if(!st){alert('Pilih nama mahasiswa terlebih dahulu.');return}const session=$('pd').value;if(d.pres.some(x=>x.npm===st.npm&&x.session===session&&x.type===type)){alert('Presensi '+(type==='come'?'datang':'pulang')+' untuk pertemuan ini sudah tercatat.');return}if(type==='leave'&&!d.pres.some(x=>x.npm===st.npm&&x.session===session&&x.type==='come')){alert('Presensi pulang hanya dapat dilakukan setelah presensi datang.');return}const v=$(type==='come'?'camCome':'camLeave');if(!cameraStream||v.style.display==='none'){alert('Buka kamera terlebih dahulu.');return}const can=$(type==='come'?'canCome':'canLeave');can.width=v.videoWidth||640;can.height=v.videoHeight||480;can.getContext('2d').drawImage(v,0,0,can.width,can.height);const photo=can.toDataURL('image/jpeg',.72);try{const loc=await getLocation(),now=new Date(),integrity=timeIntegrity();d.pres.push({id:uid('P'),npm:st.npm,name:st.name,group:st.group,session,type,date:now.toLocaleDateString('id-ID'),time:now.toLocaleTimeString('id-ID'),timestamp:now.getTime(),photo,lat:loc.lat,lon:loc.lon,accuracy:loc.accuracy,timeWarning:integrity});await save();renderPres();$(type==='come'?'photoCome':'photoLeave').src=photo;$(type==='come'?'photoCome':'photoLeave').classList.remove('hidden');$(type==='come'?'comeStatus':'leaveStatus').textContent=(type==='come'?'Datang':'Pulang')+' tercatat '+now.toLocaleDateString('id-ID')+' '+now.toLocaleTimeString('id-ID')+(integrity?' • ⚠️ '+integrity:'');stopCamera();alert('Presensi '+(type==='come'?'datang':'pulang')+' berhasil disimpan.')}catch(e){alert(e.message)}}
-function renderSummaryTable(n){const counts={log:d.l.filter(x=>x.npm===n).length,ask:d.a.filter(x=>x.npm===n).length,edu:d.e.filter(x=>x.npm===n).length,cas:d.c.filter(x=>x.npm===n).length,pres:d.pres.filter(x=>x.npm===n).length,ref:d.r.npm===n&&d.r.r1?1:0};return `<table><tr><th>Komponen</th><th>Jumlah</th></tr><tr><td>Logbook</td><td>${counts.log}</td></tr><tr><td>Asuhan Keperawatan</td><td>${counts.ask}</td></tr><tr><td>Edukasi</td><td>${counts.edu}</td></tr><tr><td>Studi Kasus</td><td>${counts.cas}</td></tr><tr><td>Presensi</td><td>${counts.pres} record</td></tr><tr><td>Refleksi</td><td>${counts.ref}</td></tr></table>`}
-function refreshSummary(){const n=currentN();if(!n){$('summary').innerHTML='<p class="muted">Pilih mahasiswa di Dashboard.</p>';return}const st=currentStudent();$('summary').innerHTML=`<div class="notice"><b>${esc(st.name)}</b> • ${esc(n)} • Kelompok ${esc(st.group)}<br>Periode: 31 Agustus–5 September 2026<br>Tempat: ${esc(d.p.place||'-')}<br>Pembimbing: Sugeng Hadisaputra, M.Kep., Ns.Sp.Kep.An</div>${renderSummaryTable(n)}<h3>Checklist Kegiatan</h3><p>${ACT.map((a,i)=>(d.activities[i]?'☑':'☐')+' '+esc(a)).join('<br>')}</p><div class="warn"><b>Arsip lengkap:</b> gunakan <b>Download JSON Lengkap</b> untuk mendapatkan seluruh data mahasiswa, seluruh record periode praktik, dan bukti file yang tersimpan.</div>`}
-function allExportObject(){return {app:'KepAn Track',version:4,exportedAt:new Date().toISOString(),periode:{start:'2026-08-31',end:'2026-09-05'},pembimbing:'Sugeng Hadisaputra, M.Kep., Ns.Sp.Kep.An',students:S.map(s=>({npm:s[0],name:s[1],group:s[2]})),data:d}}
-function triggerDownload(blob,filename){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000)}
-function exportAllJSON(){if(!askPassword(()=>{const blob=new Blob([JSON.stringify(allExportObject(),null,2)],{type:'application/json'});triggerDownload(blob,'KepAnTrack_LENGKAP_31Agustus-05September2026.json')}))return}
-function csv(rows){if(!rows.length)return '';const keys=[...new Set(rows.flatMap(r=>Object.keys(r)))];const q=v=>'"'+String(v??'').replace(/"/g,'""').replace(/\r?\n/g,' ')+'"';return [keys.map(q).join(','),...rows.map(r=>keys.map(k=>q(Array.isArray(r[k])?r[k].join('; '):r[k])).join(','))].join('\n')}
-function exportSummaryCSV(){if(!askPassword(()=>{const rows=S.map(s=>{const n=s[0];return {NPM:n,Nama:s[1],Kelompok:s[2],Logbook:d.l.filter(x=>x.npm===n).length,Askep:d.a.filter(x=>x.npm===n).length,Edukasi:d.e.filter(x=>x.npm===n).length,'Studi Kasus':d.c.filter(x=>x.npm===n).length,Presensi:d.pres.filter(x=>x.npm===n).length,Refleksi:d.r.npm===n&&d.r.r1?1:0}});triggerDownload(new Blob([csv(rows)],{type:'text/csv;charset=utf-8'}),'KepAnTrack_Rekap_Mahasiswa.csv')}))return}
-function exportLogCSV(){if(!askPassword(()=>{const rows=d.l.map(x=>({NPM:x.npm,Nama:x.name,Tanggal:x.date,Unit:x.loc,Kasus:x.cas,Kategori:x.cat,Kompetensi:x.competencyGroup,SubKompetensi:(x.competencies||[]).join('; '),Aktivitas:x.text,Hasil:x.res,Kemandirian:x.ind,CI:x.ci}));triggerDownload(new Blob([csv(rows)],{type:'text/csv;charset=utf-8'}),'KepAnTrack_Logbook.csv')}))return}
-function exportAttendanceCSV(){if(!askPassword(()=>{const rows=d.pres.map(x=>({NPM:x.npm,Nama:x.name,Kelompok:x.group,Pertemuan:x.session,Jenis:x.type==='come'?'Datang':'Pulang',Tanggal:x.date,Jam:x.time,Latitude:x.lat,Longitude:x.lon,AkurasiGPS:x.accuracy,PeringatanWaktu:x.timeWarning||'',FotoTersimpan:x.photo?'YA':'TIDAK'}));triggerDownload(new Blob([csv(rows)],{type:'text/csv;charset=utf-8'}),'KepAnTrack_Presensi.csv')}))return}
-function exportCompetencyCSV(){if(!askPassword(()=>{const rows=[];for(const x of d.l)for(const c of (x.competencies||[]))rows.push({NPM:x.npm,Nama:x.name,Tanggal:x.date,Kategori:x.cat,Kompetensi:x.competencyGroup,SubKompetensi:c});triggerDownload(new Blob([csv(rows)],{type:'text/csv;charset=utf-8'}),'KepAnTrack_Kompetensi.csv')}))return}
-function askPassword(cb){pendingAction=cb;$('pwInput').value='';$('pwError').textContent='';$('pwModal').classList.remove('hidden');setTimeout(()=>$('pwInput').focus(),50);return false}
-function confirmPassword(){if($('pwInput').value!=='anak1234'){$('pwError').textContent='Password salah.';return}const cb=pendingAction;pendingAction=null;$('pwModal').classList.add('hidden');if(cb)cb()}
-function closePassword(){pendingAction=null;$('pwModal').classList.add('hidden')}
-function printWithPassword(){askPassword(()=>{refreshSummary();window.print()})}
-async function resetStudent(){if(!currentN()){alert('Pilih mahasiswa terlebih dahulu.');return}askPassword(async()=>{const n=currentN();const archive={id:uid('AR'),npm:n,name:d.p.name,group:d.p.group,resetAt:new Date().toISOString(),data:{p:d.p,l:d.l.filter(x=>x.npm===n),a:d.a.filter(x=>x.npm===n),e:d.e.filter(x=>x.npm===n),c:d.c.filter(x=>x.npm===n),pres:d.pres.filter(x=>x.npm===n),r:d.r.npm===n?d.r:null,activities:d.activities}};d.archive.push(archive);d.p={};await save();location.reload()})}
-function resetLogForm(show=true){['ld','ll','lc','lx','lres'].forEach(id=>$(id).value='');$('lind').value='Mandiri';$('lci').value='Belum diverifikasi';document.querySelectorAll('.logSubItem').forEach(c=>c.checked=false);if(show)alert('Form logbook dikosongkan; data tersimpan tetap aman.')}
-function resetAskForm(show=true){['aj','ai','adob','au','awb','aht','adt','ak','arr','ahr','at','ahist','aphys','aanal','adiag','aint','aimp','aeval','aref'].forEach(id=>$(id).value='');$('asex').value='Laki-laki';$('afiles').value='';if(show)alert('Form asuhan dikosongkan; data tersimpan tetap aman.')}
-function resetEduForm(show=true){['ed','et','es','ep','em','ev','esap','ex','eh','eeval','eref'].forEach(id=>$(id).value='');$('efiles').value='';if(show)alert('Form edukasi dikosongkan; data tersimpan tetap aman.')}
-function resetCaseForm(show=true){['cj','ci','cdob','cu','cwb','cht','cdt','ck','crr','chr','ct','chist','cphys','canal','cdiag','cint','cimp','ceval','cref'].forEach(id=>$(id).value='');$('csex').value='Laki-laki';$('cfiles').value='';if(show)alert('Form studi kasus dikosongkan; data tersimpan tetap aman.')}
-function resetRefForm(){['r1','r2','r3','r4','r5'].forEach(id=>$(id).value='');alert('Form refleksi dikosongkan; data tersimpan tetap aman.')}
-function renderAll(){fillProfile();renderActivities();renderCompetencyList();renderLogs();renderAsk();renderEdu();renderCase();renderCaseInfo();renderPres();progress();refreshSummary()}
-init();
-</script>
-</body></html>
+    <!-- App Dashboard & Main Features View (Visible when logged in) -->
+    <div id="appView" class="hidden">
+
+      <!-- Navigation Tabs -->
+      <nav class="nav-tabs no-print">
+        <button class="nav-tab-btn active" onclick="switchNavTab('presensi', this)">
+          <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+          <span>📍 Presensi Selfie</span>
+        </button>
+        <button class="nav-tab-btn" onclick="switchNavTab('logbook', this)">
+          <svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+          <span>📘 Log Book Harian</span>
+        </button>
+        <button class="nav-tab-btn" onclick="switchNavTab('resume', this)">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+          <span>🩺 Resume Askep</span>
+        </button>
+        <button class="nav-tab-btn" onclick="switchNavTab('kelolaan', this)">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+          <span>📋 Laporan Kelolaan</span>
+        </button>
+        <button class="nav-tab-btn" onclick="switchNavTab('download', this)">
+          <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+          <span>📥 Unduh Laporan</span>
+        </button>
+      </nav>
+
+      <!-- ============================================================== -->
+      <!-- TAB 1: PRESENSI SELFIE & TIMESTAMP -->
+      <!-- ============================================================== -->
+      <section id="tab-presensi" class="tab-content">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">📍 Presensi Kehadiran Praktik</div>
+              <div class="card-subtitle">Ambil foto selfie mandiri saat tiba (Datang) dan selesai dinas (Pulang) disertai stempel waktu otomatis.</div>
+            </div>
+            <div id="liveClockBadge" class="badge badge-primary" style="font-size:0.85rem; padding: 6px 12px;">
+              --:--:-- WIB
+            </div>
+          </div>
+
+          <!-- Presensi Input Grid -->
+          <div class="presensi-grid">
+
+            <!-- Absen Datang -->
+            <div class="presensi-card" id="presensiComeCard">
+              <div class="presensi-header">
+                <div class="presensi-title" style="color: #15803d;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                  <span>Absen Datang (Check-in)</span>
+                </div>
+                <span class="badge badge-gray" id="statusBadgeCome">Belum Tercatat</span>
+              </div>
+
+              <!-- Camera selfie widget for Datang -->
+              <div class="camera-box">
+                <div class="camera-preview-wrapper" id="previewWrapperCome">
+                  <video id="videoCome" autoplay playsinline class="hidden"></video>
+                  <img id="imgPreviewCome" class="captured-img hidden" alt="Selfie Datang">
+                  <div class="camera-placeholder" id="placeholderCome">
+                    <svg viewBox="0 0 24 24"><path d="M12 12m-3.2 0a3.2 3.2 0 1 0 6.4 0 3.2 3.2 0 1 0 -6.4 0M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+                    <span>Kamera selfie belum aktif</span>
+                  </div>
+                </div>
+
+                <div class="camera-actions">
+                  <button type="button" class="btn btn-sm btn-primary" id="btnOpenCamCome" onclick="startSelfieCamera('come')">
+                    📷 Buka Kamera Selfie
+                  </button>
+                  <button type="button" class="btn btn-sm btn-success hidden" id="btnSnapCamCome" onclick="snapSelfiePhoto('come')">
+                    📸 Jepret Foto Datang
+                  </button>
+                  <button type="button" class="btn btn-sm btn-secondary hidden" id="btnCloseCamCome" onclick="stopSelfieCamera('come')">
+                    Tutup Kamera
+                  </button>
+                  <label class="btn btn-sm btn-outline" style="cursor:pointer;">
+                    📁 Unggah
+                    <input type="file" accept="image/*" capture="user" onchange="handleSelfieUpload(event, 'come')" style="display:none;">
+                  </label>
+                </div>
+              </div>
+
+              <!-- Note / Timestamp info -->
+              <div class="presensi-timestamp-box" id="infoBoxCome">
+                <div style="font-weight:600; color:#334155;">Catatan Waktu Datang:</div>
+                <div id="timestampTextCome" style="color:#64748b;">Belum ada foto selfie datang hari ini.</div>
+              </div>
+
+              <div class="form-group">
+                <label>Catatan Tambahan (Opsional)</label>
+                <input type="text" id="noteCome" placeholder="Contoh: Dinas Pagi di Ruang Melati / Anak">
+              </div>
+
+              <button type="button" class="btn btn-success btn-block" id="btnSubmitCome" onclick="savePresensi('come')">
+                💾 Simpan Presensi Datang
+              </button>
+            </div>
+
+            <!-- Absen Pulang -->
+            <div class="presensi-card" id="presensiLeaveCard">
+              <div class="presensi-header">
+                <div class="presensi-title" style="color: #0369a1;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                  <span>Absen Pulang (Check-out)</span>
+                </div>
+                <span class="badge badge-gray" id="statusBadgeLeave">Belum Tercatat</span>
+              </div>
+
+              <!-- Camera selfie widget for Pulang -->
+              <div class="camera-box">
+                <div class="camera-preview-wrapper" id="previewWrapperLeave">
+                  <video id="videoLeave" autoplay playsinline class="hidden"></video>
+                  <img id="imgPreviewLeave" class="captured-img hidden" alt="Selfie Pulang">
+                  <div class="camera-placeholder" id="placeholderLeave">
+                    <svg viewBox="0 0 24 24"><path d="M12 12m-3.2 0a3.2 3.2 0 1 0 6.4 0 3.2 3.2 0 1 0 -6.4 0M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+                    <span>Kamera selfie belum aktif</span>
+                  </div>
+                </div>
+
+                <div class="camera-actions">
+                  <button type="button" class="btn btn-sm btn-primary" id="btnOpenCamLeave" onclick="startSelfieCamera('leave')">
+                    📷 Buka Kamera Selfie
+                  </button>
+                  <button type="button" class="btn btn-sm btn-success hidden" id="btnSnapCamLeave" onclick="snapSelfiePhoto('leave')">
+                    📸 Jepret Foto Pulang
+                  </button>
+                  <button type="button" class="btn btn-sm btn-secondary hidden" id="btnCloseCamLeave" onclick="stopSelfieCamera('leave')">
+                    Tutup Kamera
+                  </button>
+                  <label class="btn btn-sm btn-outline" style="cursor:pointer;">
+                    📁 Unggah
+                    <input type="file" accept="image/*" capture="user" onchange="handleSelfieUpload(event, 'leave')" style="display:none;">
+                  </label>
+                </div>
+              </div>
+
+              <!-- Note / Timestamp info -->
+              <div class="presensi-timestamp-box" id="infoBoxLeave">
+                <div style="font-weight:600; color:#334155;">Catatan Waktu Pulang:</div>
+                <div id="timestampTextLeave" style="color:#64748b;">Belum ada foto selfie pulang hari ini.</div>
+              </div>
+
+              <div class="form-group">
+                <label>Catatan Tambahan (Opsional)</label>
+                <input type="text" id="noteLeave" placeholder="Contoh: Operan dinas selesai kepada shift sore">
+              </div>
+
+              <button type="button" class="btn btn-primary btn-block" id="btnSubmitLeave" onclick="savePresensi('leave')">
+                💾 Simpan Presensi Pulang
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Riwayat Presensi Section -->
+          <div class="card-header" style="margin-top: 10px;">
+            <div class="card-title">📋 Riwayat Presensi Mahasiswa</div>
+            <div class="badge badge-gray" id="totalPresensiCount">Total: 0 Hari</div>
+          </div>
+
+          <div id="presensiListContainer">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- TAB 2: LOG BOOK HARIAN -->
+      <!-- ============================================================== -->
+      <section id="tab-logbook" class="tab-content hidden">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">📘 Tambah Entri Log Book Harian</div>
+              <div class="card-subtitle">Catat seluruh tindakan, observasi klinis, edukasi keluarga, atau kompetensi keperawatan anak setiap hari.</div>
+            </div>
+          </div>
+
+          <form id="logbookForm" onsubmit="handleSaveLogbook(event)">
+            <input type="hidden" id="logbookEditId">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="label-required">Tanggal Kegiatan</label>
+                <input type="date" id="logDate" required>
+              </div>
+              <div class="form-group">
+                <label class="label-required">Jam Kegiatan</label>
+                <input type="time" id="logTime" required>
+              </div>
+              <div class="form-group">
+                <label class="label-required">Jenis Kegiatan</label>
+                <select id="logActivityType" onchange="checkCustomActivityType(this)" required>
+                  <option value="">-- Pilih Jenis Kegiatan --</option>
+                  <option value="Tindakan Keperawatan Anak (Infus/Inhalasi/Suction/O2)">Tindakan Keperawatan Anak (Infus/Inhalasi/Suction/O2)</option>
+                  <option value="Pengkajian Tumbuh Kembang & Antropometri (SDIDTK/KPSP)">Pengkajian Tumbuh Kembang & Antropometri (SDIDTK/KPSP)</option>
+                  <option value="Pemberian Terapi Obat / Injeksi Aman Pada Anak">Pemberian Terapi Obat / Injeksi Aman Pada Anak</option>
+                  <option value="Manajemen Cairan & Rehidrasi (Diare / Dehidrasi MTBS)">Manajemen Cairan & Rehidrasi (Diare / Dehidrasi MTBS)</option>
+                  <option value="Perawatan Bayi Baru Lahir / BBLR / Fototerapi">Perawatan Bayi Baru Lahir / BBLR / Fototerapi</option>
+                  <option value="Pemantauan Tanda Vital & Pediatric Early Warning (PEWS)">Pemantauan Tanda Vital & Pediatric Early Warning (PEWS)</option>
+                  <option value="Edukasi & Health Education Orang Tua / Imunisasi">Edukasi & Health Education Orang Tua / Imunisasi</option>
+                  <option value="Ronde Keperawatan / Diskusi Refleksi Kasus Klinis">Ronde Keperawatan / Diskusi Refleksi Kasus Klinis</option>
+                  <option value="Lainnya">Lainnya (Ketik Manual)</option>
+                </select>
+                <input type="text" id="logCustomActivityType" class="hidden mt-2" placeholder="Tuliskan jenis kegiatan lainnya...">
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 14px;">
+              <label class="label-required">Deskripsi Kegiatan Lengkap</label>
+              <textarea id="logDescription" placeholder="Uraikan tindakan keperawatan yang dilakukan, prosedur, kondisi anak, respon anak dan orang tua, serta capaian pembelajaran klinis..." required></textarea>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 16px;">
+              <label class="label-required">Bukti Kegiatan (Foto / Dokumentasi)</label>
+              <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                <img id="logEvidencePreview" src="icon.svg" style="width: 70px; height: 70px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border);" alt="Bukti Kegiatan">
+                <div>
+                  <input type="file" id="logEvidenceInput" accept="image/*" onchange="handleEvidenceSelect(event, 'logEvidencePreview')" style="display:none;">
+                  <button type="button" class="btn btn-sm btn-secondary" onclick="$('logEvidenceInput').click()">📁 Unggah Foto Bukti</button>
+                  <button type="button" class="btn btn-sm btn-outline" onclick="openDirectCamera('logEvidence')">📷 Ambil Foto Kamera</button>
+                  <div class="form-hint" style="margin-top: 4px;">Foto dokumentasi prosedur, lembar paraf CI, atau situasi dinas.</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+              <button type="submit" class="btn btn-primary" id="btnSaveLogbook">💾 Simpan Log Book</button>
+              <button type="button" class="btn btn-secondary" onclick="resetLogbookForm()">🔄 Bersihkan Form</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Riwayat Logbook -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">📚 Riwayat Log Book Harian</div>
+              <div class="card-subtitle">Semua catatan logbook yang tersimpan pada perangkat. Dapat diedit atau dihapus.</div>
+            </div>
+            <div class="badge badge-primary" id="totalLogbookCount">0 Catatan</div>
+          </div>
+
+          <div id="logbookListContainer">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- TAB 3: RESUME ASUHAN KEPERAWATAN -->
+      <!-- ============================================================== -->
+      <section id="tab-resume" class="tab-content hidden">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">🩺 Resume Asuhan Keperawatan Anak</div>
+              <div class="card-subtitle">Dokumentasi ringkasan asuhan keperawatan kasus harian pada pasien anak.</div>
+            </div>
+          </div>
+
+          <form id="resumeForm" onsubmit="handleSaveResume(event)">
+            <input type="hidden" id="resumeEditId">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="label-required">Tanggal Asuhan</label>
+                <input type="date" id="resumeDate" required>
+              </div>
+            </div>
+
+            <!-- Identitas Klien -->
+            <div style="background: #f0fdfa; border: 1px solid #ccfbf1; border-radius: 10px; padding: 14px; margin-bottom: 14px;">
+              <div style="font-weight: 700; color: var(--primary-dark); font-size: 0.9rem; margin-bottom: 8px;">
+                👶 Identitas Klien Anak
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="label-required">Inisial Klien</label>
+                  <input type="text" id="resumeClientInitial" placeholder="Contoh: An. R / By. B" required>
+                </div>
+                <div class="form-group">
+                  <label class="label-required">Tanggal Lahir Klien</label>
+                  <input type="date" id="resumeClientDob" onchange="calcAge(this.value, 'resumeClientAge')" required>
+                </div>
+                <div class="form-group">
+                  <label>Usia Klien</label>
+                  <input type="text" id="resumeClientAge" placeholder="Contoh: 3 tahun 2 bulan">
+                </div>
+                <div class="form-group">
+                  <label class="label-required">Jenis Kelamin</label>
+                  <select id="resumeClientGender" required>
+                    <option value="Laki-laki">Laki-laki</option>
+                    <option value="Perempuan">Perempuan</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="label-required">Tinggi / Panjang Badan (cm)</label>
+                  <input type="number" step="0.1" id="resumeClientHeight" placeholder="Contoh: 92.5" required>
+                </div>
+                <div class="form-group">
+                  <label class="label-required">Berat Badan (kg)</label>
+                  <input type="number" step="0.1" id="resumeClientWeight" placeholder="Contoh: 13.4" required>
+                </div>
+              </div>
+            </div>
+
+            <!-- SOAP & Klinis -->
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="label-required">Keluhan Utama</label>
+              <textarea id="resumeChiefComplaint" placeholder="Keluhan utama anak saat pengkajian (misal: demam naik turun 3 hari, batuk pilek, rewel...)" required></textarea>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="label-required">Pengkajian (TTV & Pemeriksaan Fisik Terfokus)</label>
+              <textarea id="resumeAssessment" placeholder="Tanda-tanda vital (Suhu, Nadi, RR, SpO2), status hidrasi, status pernapasan, antropometri, dan kondisi fisik umum anak..." required></textarea>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="label-required">Intervensi Keperawatan (SDKI / Rencana Tindakan)</label>
+              <textarea id="resumeIntervention" placeholder="Diagnosis keperawatan anak dan rencana tindakan yang disusun (SIKI / SLKI)..." required></textarea>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="label-required">Implementasi Keperawatan</label>
+              <textarea id="resumeImplementation" placeholder="Tindakan keperawatan nyata yang dilakukan selama dinas..." required></textarea>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 14px;">
+              <label class="label-required">Evaluasi (SOAP)</label>
+              <textarea id="resumeEvaluation" placeholder="S (Subjektif), O (Objektif), A (Analisis), P (Perencanaan / Tindak Lanjut)..." required></textarea>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 16px;">
+              <label class="label-required">Bukti Resume (Foto / Lembar Terverifikasi)</label>
+              <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                <img id="resumeEvidencePreview" src="icon.svg" style="width: 70px; height: 70px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border);" alt="Bukti Resume">
+                <div>
+                  <input type="file" id="resumeEvidenceInput" accept="image/*" onchange="handleEvidenceSelect(event, 'resumeEvidencePreview')" style="display:none;">
+                  <button type="button" class="btn btn-sm btn-secondary" onclick="$('resumeEvidenceInput').click()">📁 Unggah Foto Bukti</button>
+                  <button type="button" class="btn btn-sm btn-outline" onclick="openDirectCamera('resumeEvidence')">📷 Ambil Foto Kamera</button>
+                  <div class="form-hint" style="margin-top: 4px;">Foto lembar resume bertanda tangan CI / foto dokumentasi asuhan.</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+              <button type="submit" class="btn btn-primary" id="btnSaveResume">💾 Simpan Resume Askep</button>
+              <button type="button" class="btn btn-secondary" onclick="resetResumeForm()">🔄 Bersihkan Form</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Riwayat Resume -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">📋 Riwayat Resume Asuhan Keperawatan</div>
+              <div class="card-subtitle">Daftar kasus resume asuhan yang telah dicatat.</div>
+            </div>
+            <div class="badge badge-primary" id="totalResumeCount">0 Kasus</div>
+          </div>
+
+          <div id="resumeListContainer">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- TAB 4: LAPORAN KELOLAAN -->
+      <!-- ============================================================== -->
+      <section id="tab-kelolaan" class="tab-content hidden">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">📋 Laporan Kasus Kelolaan Keperawatan Anak</div>
+              <div class="card-subtitle">Dokumentasi asuhan keperawatan komprehensif pada pasien kelolaan utama anak.</div>
+            </div>
+          </div>
+
+          <form id="kelolaanForm" onsubmit="handleSaveKelolaan(event)">
+            <input type="hidden" id="kelolaanEditId">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="label-required">Tanggal Pelaporan</label>
+                <input type="date" id="kelolaanDate" required>
+              </div>
+            </div>
+
+            <!-- Identitas Klien Kelolaan -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin-bottom: 14px;">
+              <div style="font-weight: 700; color: #1e293b; font-size: 0.9rem; margin-bottom: 8px;">
+                👶 Identitas Klien Kelolaan
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="label-required">Inisial Klien</label>
+                  <input type="text" id="kelolaanClientInitial" placeholder="Contoh: An. M / By. N" required>
+                </div>
+                <div class="form-group">
+                  <label class="label-required">Tanggal Lahir Klien</label>
+                  <input type="date" id="kelolaanClientDob" onchange="calcAge(this.value, 'kelolaanClientAge')" required>
+                </div>
+                <div class="form-group">
+                  <label>Usia Klien</label>
+                  <input type="text" id="kelolaanClientAge" placeholder="Contoh: 1 tahun 6 bulan">
+                </div>
+                <div class="form-group">
+                  <label class="label-required">Jenis Kelamin</label>
+                  <select id="kelolaanClientGender" required>
+                    <option value="Laki-laki">Laki-laki</option>
+                    <option value="Perempuan">Perempuan</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="label-required">Tinggi / Panjang Badan (cm)</label>
+                  <input type="number" step="0.1" id="kelolaanClientHeight" placeholder="Contoh: 81.0" required>
+                </div>
+                <div class="form-group">
+                  <label class="label-required">Berat Badan (kg)</label>
+                  <input type="number" step="0.1" id="kelolaanClientWeight" placeholder="Contoh: 10.2" required>
+                </div>
+              </div>
+            </div>
+
+            <!-- Form Isi Kasus Kelolaan -->
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="label-required">Keluhan Utama</label>
+              <textarea id="kelolaanChiefComplaint" placeholder="Keluhan utama dan riwayat penyakit saat ini (alasan masuk perawatan / kunjungan)..." required></textarea>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="label-required">Pengkajian Lengkap</label>
+              <textarea id="kelolaanAssessment" placeholder="Riwayat prenatal, natal, postnatal, imunisasi, pengkajian tumbuh kembang, pemeriksaan fisik head-to-toe, hasil laboratorium / penunjang..." required></textarea>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="label-required">Intervensi Keperawatan (SDKI, SLKI, SIKI)</label>
+              <textarea id="kelolaanIntervention" placeholder="Rencana asuhan keperawatan: diagnosis prioritas, kriteria hasil, dan intervensi mandiri serta kolaboratif..." required></textarea>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="label-required">Implementasi Keperawatan</label>
+              <textarea id="kelolaanImplementation" placeholder="Pelaksanaan tindakan keperawatan holistik yang telah dilakukan pada pasien kelolaan..." required></textarea>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 14px;">
+              <label class="label-required">Evaluasi (SOAP Perkembangan)</label>
+              <textarea id="kelolaanEvaluation" placeholder="Evaluasi berkala terhadap respon perkembangan klinis anak dan respon orang tua..." required></textarea>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 16px;">
+              <label class="label-required">Bukti Resume / Laporan (Foto / Lembar Terverifikasi)</label>
+              <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                <img id="kelolaanEvidencePreview" src="icon.svg" style="width: 70px; height: 70px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border);" alt="Bukti Laporan">
+                <div>
+                  <input type="file" id="kelolaanEvidenceInput" accept="image/*" onchange="handleEvidenceSelect(event, 'kelolaanEvidencePreview')" style="display:none;">
+                  <button type="button" class="btn btn-sm btn-secondary" onclick="$('kelolaanEvidenceInput').click()">📁 Unggah Foto Bukti</button>
+                  <button type="button" class="btn btn-sm btn-outline" onclick="openDirectCamera('kelolaanEvidence')">📷 Ambil Foto Kamera</button>
+                  <div class="form-hint" style="margin-top: 4px;">Foto lembar laporan kelolaan lengkap atau bukti verifikasi pembimbing.</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+              <button type="submit" class="btn btn-primary" id="btnSaveKelolaan">💾 Simpan Laporan Kelolaan</button>
+              <button type="button" class="btn btn-secondary" onclick="resetKelolaanForm()">🔄 Bersihkan Form</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Riwayat Kelolaan -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">📚 Riwayat Laporan Kasus Kelolaan</div>
+              <div class="card-subtitle">Semua berkas laporan kelolaan yang telah didokumentasikan.</div>
+            </div>
+            <div class="badge badge-primary" id="totalKelolaanCount">0 Laporan</div>
+          </div>
+
+          <div id="kelolaanListContainer">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- TAB 5: UNDUH DATA & LAPORAN (PDF, CSV, JSON) -->
+      <!-- ============================================================== -->
+      <section id="tab-download" class="tab-content hidden">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">📥 Unduh & Ekspor Laporan Dokumentasi</div>
+              <div class="card-subtitle">Pilih cakupan data harian, mingguan, atau seluruh data, lalu unduh dalam format PDF resmi, CSV, atau JSON.</div>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="label-required">1. Pilih Jenis Laporan</label>
+              <select id="exportReportType">
+                <option value="ALL">📦 Seluruh Laporan (Presensi, Logbook, Resume & Kelolaan)</option>
+                <option value="presensi">📍 Presensi Kehadiran Saja</option>
+                <option value="logbook">📘 Log Book Harian Saja</option>
+                <option value="resume">🩺 Resume Asuhan Keperawatan Saja</option>
+                <option value="kelolaan">📋 Laporan Kasus Kelolaan Saja</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="label-required">2. Pilih Periode / Rentang Data</label>
+              <select id="exportPeriodType" onchange="toggleExportPeriodInputs()">
+                <option value="all">🌐 Seluruh Data Lengkap</option>
+                <option value="daily">📅 Data Lengkap Harian (1 Hari Tertentu)</option>
+                <option value="weekly">📆 Data Lengkap Mingguan (Rentang 7 Hari)</option>
+              </select>
+            </div>
+
+            <!-- Date Picker for Daily -->
+            <div class="form-group hidden" id="groupExportDaily">
+              <label class="label-required">Pilih Tanggal Harian</label>
+              <input type="date" id="exportDailyDate">
+            </div>
+
+            <!-- Date Picker for Weekly -->
+            <div class="form-group hidden" id="groupExportWeekly">
+              <label class="label-required">Tanggal Awal Minggu (7 Hari)</label>
+              <input type="date" id="exportWeeklyStartDate">
+              <span class="form-hint" id="exportWeeklyHint">Mencakup 7 hari sejak tanggal terpilih.</span>
+            </div>
+          </div>
+
+          <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin: 16px 0;">
+            <div style="font-weight: 700; color: #1e293b; margin-bottom: 8px;">Pilihan Format Pengunduhan:</div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <button type="button" class="btn btn-danger" onclick="triggerExport('pdf')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V7H15c.83 0 1.5.67 1.5 1.5v3zm4-3H19v1h1.5V11H19v2h-1.5V7h3v1.5z"/></svg>
+                <span>Unduh PDF Resmi (Siap Cetak)</span>
+              </button>
+              <button type="button" class="btn btn-success" onclick="triggerExport('csv')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 13H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"/></svg>
+                <span>Unduh File CSV (Excel)</span>
+              </button>
+              <button type="button" class="btn btn-primary" onclick="triggerExport('json')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                <span>Unduh Cadangan JSON Lengkap</span>
+              </button>
+            </div>
+            <div class="form-hint" style="margin-top: 8px;">
+              * PDF resmi menyertakan kop universitas, foto profil resmi mahasiswa, tabel data klinis terformat rapi, dan foto bukti.
+            </div>
+          </div>
+
+          <!-- JSON Restore / Backup Card -->
+          <div style="background: #f0fdfa; border: 1px dashed #0d9488; border-radius: 12px; padding: 16px;">
+            <div style="font-weight: 700; color: var(--primary-dark); margin-bottom: 4px;">
+              🔄 Pulihkan / Impor Data dari Cadangan JSON
+            </div>
+            <p class="form-hint" style="margin-bottom: 10px;">
+              Jika Anda mengganti ponsel atau ingin menyinkronkan data dari perangkat lain, unggah file JSON cadangan di sini.
+            </p>
+            <input type="file" id="importJsonInput" accept=".json,application/json" onchange="handleImportJSON(event)" style="display: none;">
+            <button type="button" class="btn btn-sm btn-outline" onclick="$('importJsonInput').click()">
+              📥 Impor Berkas Cadangan JSON
+            </button>
+          </div>
+        </div>
+
+        <!-- Pratinjau Cetak / PDF Container (Hidden in screen, shown in print) -->
+        <div id="printReportContainer" class="print-header">
+          <!-- Populated by JS for window.print() -->
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: EDITOR PRESENSI (MENGULANG / EDIT PRESENSI) -->
+  <!-- ============================================================== -->
+  <div class="modal-overlay" id="editPresensiModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title">✏️ Editor & Ulang Presensi</div>
+        <button class="modal-close" onclick="closeModal('editPresensiModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="editPresensiId">
+        <div class="form-group">
+          <label>Tanggal Presensi</label>
+          <input type="date" id="editPresensiDate" readonly style="background:#f1f5f9;">
+        </div>
+
+        <!-- Bagian Datang -->
+        <div style="border: 1px solid var(--border); border-radius: 8px; padding: 12px; background: #fdfdfd;">
+          <div style="font-weight: 700; color: #15803d; margin-bottom: 6px;">🟢 Presensi Datang</div>
+          <div class="form-group" style="margin-bottom: 8px;">
+            <label>Waktu Datang</label>
+            <input type="text" id="editPresensiTimeCome" placeholder="Contoh: 07:45:10 WIB">
+          </div>
+          <div class="form-group" style="margin-bottom: 8px;">
+            <label>Foto Selfie Datang</label>
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <img id="editPresensiPhotoCome" src="icon.svg" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border);" alt="Foto Datang">
+              <div>
+                <input type="file" accept="image/*" capture="user" id="editPhotoComeInput" onchange="handleEvidenceSelect(event, 'editPresensiPhotoCome')" style="display:none;">
+                <button type="button" class="btn btn-sm btn-secondary" onclick="$('editPhotoComeInput').click()">Ulang / Ganti Foto Datang</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bagian Pulang -->
+        <div style="border: 1px solid var(--border); border-radius: 8px; padding: 12px; background: #fdfdfd;">
+          <div style="font-weight: 700; color: #0369a1; margin-bottom: 6px;">🔵 Presensi Pulang</div>
+          <div class="form-group" style="margin-bottom: 8px;">
+            <label>Waktu Pulang</label>
+            <input type="text" id="editPresensiTimeLeave" placeholder="Contoh: 14:15:30 WIB">
+          </div>
+          <div class="form-group" style="margin-bottom: 8px;">
+            <label>Foto Selfie Pulang</label>
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <img id="editPresensiPhotoLeave" src="icon.svg" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border);" alt="Foto Pulang">
+              <div>
+                <input type="file" accept="image/*" capture="user" id="editPhotoLeaveInput" onchange="handleEvidenceSelect(event, 'editPresensiPhotoLeave')" style="display:none;">
+                <button type="button" class="btn btn-sm btn-secondary" onclick="$('editPhotoLeaveInput').click()">Ulang / Ganti Foto Pulang</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Catatan Presensi</label>
+          <input type="text" id="editPresensiNotes" placeholder="Catatan kehadiran...">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('editPresensiModal')">Batal</button>
+        <button class="btn btn-primary" onclick="saveEditedPresensi()">💾 Simpan Perubahan Presensi</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: LIGHTBOX DETAIL FOTO -->
+  <!-- ============================================================== -->
+  <div class="modal-overlay" id="lightboxModal">
+    <div class="modal-dialog" style="max-width: 500px; text-align: center;">
+      <div class="modal-header">
+        <div class="modal-title" id="lightboxTitle">Foto Dokumentasi</div>
+        <button class="modal-close" onclick="closeModal('lightboxModal')">&times;</button>
+      </div>
+      <div class="modal-body" style="padding: 14px;">
+        <img id="lightboxImg" class="lightbox-img" src="" alt="Pratinjau Foto">
+        <div id="lightboxCaption" style="font-size: 0.82rem; color: #64748b; margin-top: 8px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: KAMERA LANGSUNG UNTUK FOTO/BUKTI -->
+  <!-- ============================================================== -->
+  <div class="modal-overlay" id="universalCameraModal">
+    <div class="modal-dialog" style="max-width: 440px;">
+      <div class="modal-header">
+        <div class="modal-title">📷 Pengambil Foto Kamera</div>
+        <button class="modal-close" onclick="closeUniversalCamera()">&times;</button>
+      </div>
+      <div class="modal-body" style="align-items: center;">
+        <div class="camera-preview-wrapper" style="width: 100%; height: 260px;">
+          <video id="universalVideo" autoplay playsinline style="width: 100%; height: 100%; object-fit: cover;"></video>
+        </div>
+        <div class="camera-actions mt-2">
+          <button type="button" class="btn btn-success" onclick="snapUniversalPhoto()">📸 Ambil Foto Sekarang</button>
+          <button type="button" class="btn btn-secondary" onclick="closeUniversalCamera()">Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: KELOLA PENGGUNA (ADMIN ONLY) -->
+  <!-- ============================================================== -->
+  <div class="modal-overlay" id="userManagementModal">
+    <div class="modal-dialog" style="max-width: 650px;">
+      <div class="modal-header">
+        <div class="modal-title">👥 Manajemen Akun Mahasiswa Terdaftar</div>
+        <button class="modal-close" onclick="closeModal('userManagementModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="adminUserListContainer">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('userManagementModal')">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Hidden canvas for photo compression & processing -->
+  <canvas id="processingCanvas" class="hidden"></canvas>
+
+  <script>
+    /* =====================================================================
+       DATABASE LAYER (IndexedDB)
+       Provides massive offline storage without localStorage 5MB quota errors!
+       ===================================================================== */
+    const DB_NAME = 'KepAnProfesi_DB';
+    const DB_VERSION = 1;
+    let dbInstance = null;
+
+    function openDatabase() {
+      return new Promise((resolve, reject) => {
+        if (dbInstance) return resolve(dbInstance);
+        const req = indexedDB.open(DB_NAME, DB_VERSION);
+
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          // Store 1: Users (Key: npm)
+          if (!db.objectStoreNames.contains('users')) {
+            const userStore = db.createObjectStore('users', { keyPath: 'npm' });
+            userStore.createIndex('name', 'name', { unique: false });
+          }
+          // Store 2: Presensi (Key: id)
+          if (!db.objectStoreNames.contains('presensi')) {
+            const presStore = db.createObjectStore('presensi', { keyPath: 'id' });
+            presStore.createIndex('npm', 'npm', { unique: false });
+            presStore.createIndex('date', 'date', { unique: false });
+          }
+          // Store 3: Logbook (Key: id)
+          if (!db.objectStoreNames.contains('logbook')) {
+            const logStore = db.createObjectStore('logbook', { keyPath: 'id' });
+            logStore.createIndex('npm', 'npm', { unique: false });
+            logStore.createIndex('date', 'date', { unique: false });
+          }
+          // Store 4: Resume Askep (Key: id)
+          if (!db.objectStoreNames.contains('resume')) {
+            const resumeStore = db.createObjectStore('resume', { keyPath: 'id' });
+            resumeStore.createIndex('npm', 'npm', { unique: false });
+            resumeStore.createIndex('date', 'date', { unique: false });
+          }
+          // Store 5: Laporan Kelolaan (Key: id)
+          if (!db.objectStoreNames.contains('kelolaan')) {
+            const kelolaanStore = db.createObjectStore('kelolaan', { keyPath: 'id' });
+            kelolaanStore.createIndex('npm', 'npm', { unique: false });
+            kelolaanStore.createIndex('date', 'date', { unique: false });
+          }
+          // Store 6: App State / Session
+          if (!db.objectStoreNames.contains('meta')) {
+            db.createObjectStore('meta', { keyPath: 'key' });
+          }
+        };
+
+        req.onsuccess = (e) => {
+          dbInstance = e.target.result;
+          resolve(dbInstance);
+        };
+        req.onerror = (e) => reject(e.target.error);
+      });
+    }
+
+    // Generic DB Helpers
+    async function dbGetAll(storeName) {
+      const db = await openDatabase();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(storeName, 'readonly');
+        const store = tx.objectStore(storeName);
+        const req = store.getAll();
+        req.onsuccess = () => resolve(req.result || []);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    async function dbGet(storeName, key) {
+      const db = await openDatabase();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(storeName, 'readonly');
+        const store = tx.objectStore(storeName);
+        const req = store.get(key);
+        req.onsuccess = () => resolve(req.result || null);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    async function dbPut(storeName, value) {
+      const db = await openDatabase();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(storeName, 'readwrite');
+        const store = tx.objectStore(storeName);
+        store.put(value);
+        tx.oncomplete = () => resolve(true);
+        tx.onerror = () => reject(tx.error);
+      });
+    }
+
+    async function dbDelete(storeName, key) {
+      const db = await openDatabase();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(storeName, 'readwrite');
+        const store = tx.objectStore(storeName);
+        store.delete(key);
+        tx.oncomplete = () => resolve(true);
+        tx.onerror = () => reject(tx.error);
+      });
+    }
+
+    /* =====================================================================
+       GLOBAL STATE & APPLICATION LOGIC
+       ===================================================================== */
+    let currentUser = null; // null or user object or { role: 'admin', name: 'Administrator' }
+    let activeAdminFilter = 'ALL'; // 'ALL' or specific student npm
+    let activeCameraStream = null;
+    let universalCameraTarget = null; // 'signup', 'logEvidence', etc.
+
+    // Shorthand selector helper
+    const $ = (id) => document.getElementById(id);
+    const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]));
+    const genId = (prefix = 'ID') => `${prefix}_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+
+    // Toast Notification helper
+    function showToast(message, type = 'info') {
+      const container = $('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `<span>${esc(message)}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(20px)';
+        toast.style.transition = 'all 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    // Modal helpers
+    function openModal(id) { $(id).classList.add('active'); }
+    function closeModal(id) { $(id).classList.remove('active'); }
+
+    // Live clock on presensi tab
+    function updateClock() {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' WIB';
+      if ($('liveClockBadge')) $('liveClockBadge').textContent = timeStr;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Calculate age helper
+    function calcAge(dobString, targetInputId) {
+      if (!dobString) return;
+      const dob = new Date(dobString);
+      const now = new Date();
+      if (isNaN(dob.getTime())) return;
+
+      let years = now.getFullYear() - dob.getFullYear();
+      let months = now.getMonth() - dob.getMonth();
+      let days = now.getDate() - dob.getDate();
+
+      if (days < 0) {
+        months--;
+      }
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+
+      let ageStr = '';
+      if (years > 0) {
+        ageStr = `${years} tahun ${months > 0 ? months + ' bulan' : ''}`.trim();
+      } else if (months > 0) {
+        ageStr = `${months} bulan`;
+      } else {
+        const diffDays = Math.max(1, Math.floor((now - dob) / (1000 * 60 * 60 * 24)));
+        ageStr = `${diffDays} hari`;
+      }
+      if ($(targetInputId)) $(targetInputId).value = ageStr;
+    }
+
+    /* =====================================================================
+       AUTHENTICATION & USER PROFILE
+       ===================================================================== */
+    function switchAuthTab(tab) {
+      if (tab === 'login') {
+        $('tabBtnLogin').classList.add('active');
+        $('tabBtnSignup').classList.remove('active');
+        $('loginForm').classList.remove('hidden');
+        $('signupForm').classList.add('hidden');
+      } else {
+        $('tabBtnSignup').classList.add('active');
+        $('tabBtnLogin').classList.remove('active');
+        $('signupForm').classList.remove('hidden');
+        $('loginForm').classList.add('hidden');
+      }
+    }
+
+    // Handle Signup
+    async function handleSignup(e) {
+      e.preventDefault();
+      const name = $('signupName').value.trim();
+      const npm = $('signupNPM').value.trim();
+      const gender = $('signupGender').value;
+      const password = $('signupPassword').value;
+      const photo = $('signupAvatarPreview').src;
+
+      if (!name || !npm || !password) {
+        showToast('Mohon lengkapi semua kolom pendaftaran.', 'error');
+        return;
+      }
+
+      // Check if NPM already registered
+      const existing = await dbGet('users', npm);
+      if (existing) {
+        showToast(`NPM ${npm} sudah terdaftar! Silakan login.`, 'error');
+        switchAuthTab('login');
+        $('loginNPM').value = npm;
+        return;
+      }
+
+      const newUser = {
+        npm,
+        name,
+        gender,
+        password,
+        photo: photo.startsWith('data:') ? photo : 'icon.svg',
+        createdAt: new Date().toISOString()
+      };
+
+      await dbPut('users', newUser);
+      await dbPut('meta', { key: 'session', user: newUser });
+
+      currentUser = newUser;
+      showToast(`Pendaftaran berhasil! Selamat datang, ${name}.`, 'success');
+      showAppDashboard();
+    }
+
+    // Handle Login
+    async function handleLogin(e) {
+      e.preventDefault();
+      const npmInput = $('loginNPM').value.trim();
+      const passwordInput = $('loginPassword').value;
+
+      // Special Admin Check: user: admin, pass: admin
+      if (npmInput.toLowerCase() === 'admin' && passwordInput === 'admin') {
+        currentUser = {
+          role: 'admin',
+          npm: 'admin',
+          name: 'Administrator',
+          gender: 'Admin',
+          photo: 'icon.svg'
+        };
+        await dbPut('meta', { key: 'session', user: currentUser });
+        showToast('Login berhasil sebagai Administrator.', 'success');
+        showAppDashboard();
+        return;
+      }
+
+      // Student Login Check
+      const user = await dbGet('users', npmInput);
+      if (!user) {
+        showToast('NPM belum terdaftar. Silakan daftar akun baru.', 'error');
+        return;
+      }
+
+      if (user.password !== passwordInput) {
+        showToast('Kata sandi salah!', 'error');
+        return;
+      }
+
+      currentUser = user;
+      await dbPut('meta', { key: 'session', user: currentUser });
+      showToast(`Selamat datang kembali, ${user.name}!`, 'success');
+      showAppDashboard();
+    }
+
+    // Logout
+    async function logoutApp() {
+      if (!confirm('Apakah Anda yakin ingin keluar / berganti akun?')) return;
+      currentUser = null;
+      await dbDelete('meta', 'session');
+      $('authView').classList.remove('hidden');
+      $('appView').classList.add('hidden');
+      $('headerUserSection').style.display = 'none';
+      $('adminBanner').classList.add('hidden');
+      showToast('Anda telah keluar.', 'info');
+    }
+
+    // Show Main Dashboard
+    async function showAppDashboard() {
+      $('authView').classList.add('hidden');
+      $('appView').classList.remove('hidden');
+      $('headerUserSection').style.display = 'flex';
+
+      $('headerUserName').textContent = currentUser.name;
+      $('headerUserNPM').textContent = currentUser.role === 'admin' ? '👑 Administrator' : `NPM: ${currentUser.npm}`;
+      $('headerUserAvatar').src = currentUser.photo || 'icon.svg';
+
+      // Set default dates to today
+      const today = new Date().toISOString().split('T')[0];
+      ['logDate', 'resumeDate', 'kelolaanDate', 'exportDailyDate', 'exportWeeklyStartDate'].forEach(id => {
+        if ($(id) && !$(id).value) $(id).value = today;
+      });
+      const nowTime = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.', ':');
+      if ($('logTime') && !$('logTime').value) $('logTime').value = nowTime;
+
+      if (currentUser.role === 'admin') {
+        $('adminBanner').classList.remove('hidden');
+        await populateAdminStudentSelect();
+      } else {
+        $('adminBanner').classList.add('hidden');
+      }
+
+      // Render initial tab data
+      renderPresensiToday();
+      renderPresensiList();
+      renderLogbookList();
+      renderResumeList();
+      renderKelolaanList();
+    }
+
+    // Admin Student Filter Selector
+    async function populateAdminStudentSelect() {
+      const students = await dbGetAll('users');
+      const select = $('adminStudentSelect');
+      select.innerHTML = '<option value="ALL">-- Seluruh Mahasiswa (Semua Data) --</option>';
+      students.forEach(st => {
+        const opt = document.createElement('option');
+        opt.value = st.npm;
+        opt.textContent = `${st.name} (${st.npm})`;
+        select.appendChild(opt);
+      });
+      select.value = activeAdminFilter;
+    }
+
+    function onAdminStudentChange() {
+      activeAdminFilter = $('adminStudentSelect').value;
+      renderPresensiToday();
+      renderPresensiList();
+      renderLogbookList();
+      renderResumeList();
+      renderKelolaanList();
+      showToast(`Menampilkan data: ${activeAdminFilter === 'ALL' ? 'Semua Mahasiswa' : activeAdminFilter}`, 'info');
+    }
+
+    // Get Active Target NPM
+    function getActiveNPM() {
+      if (currentUser.role === 'admin') {
+        return activeAdminFilter === 'ALL' ? null : activeAdminFilter;
+      }
+      return currentUser.npm;
+    }
+
+    /* =====================================================================
+       NAVIGATION TABS
+       ===================================================================== */
+    function switchNavTab(tabName, btnElement) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.nav-tab-btn').forEach(btn => btn.classList.remove('active'));
+
+      $(`tab-${tabName}`).classList.remove('hidden');
+      if (btnElement) btnElement.classList.add('active');
+
+      if (tabName === 'presensi') {
+        renderPresensiToday();
+        renderPresensiList();
+      } else if (tabName === 'logbook') {
+        renderLogbookList();
+      } else if (tabName === 'resume') {
+        renderResumeList();
+      } else if (tabName === 'kelolaan') {
+        renderKelolaanList();
+      }
+    }
+
+    /* =====================================================================
+       CAMERA & IMAGE PROCESSING HELPER
+       Uses HTML5 Canvas to resize photos to clean, lightweight, high-res JPEG
+       ===================================================================== */
+    function compressImage(fileOrDataUrl, maxDim = 800, quality = 0.75) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+          let { width, height } = img;
+          if (width > maxDim || height > maxDim) {
+            if (width > height) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            } else {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+          }
+          const canvas = $('processingCanvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.src = typeof fileOrDataUrl === 'string' ? fileOrDataUrl : URL.createObjectURL(fileOrDataUrl);
+      });
+    }
+
+    // File input handlers
+    async function handleAvatarFileSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const compressed = await compressImage(file, 400, 0.85);
+      $('signupAvatarPreview').src = compressed;
+    }
+
+    async function handleEvidenceSelect(e, previewImgId) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const compressed = await compressImage(file, 900, 0.75);
+      $(previewImgId).src = compressed;
+    }
+
+    /* =====================================================================
+       PRESENSI CAMERA (SELFIE) FUNCTIONS
+       ===================================================================== */
+    let tempSelfieData = { come: null, leave: null };
+
+    async function startSelfieCamera(type) {
+      const video = $(type === 'come' ? 'videoCome' : 'videoLeave');
+      const placeholder = $(type === 'come' ? 'placeholderCome' : 'placeholderLeave');
+      const btnOpen = $(type === 'come' ? 'btnOpenCamCome' : 'btnOpenCamLeave');
+      const btnSnap = $(type === 'come' ? 'btnSnapCamCome' : 'btnSnapCamLeave');
+      const btnClose = $(type === 'come' ? 'btnCloseCamCome' : 'btnCloseCamLeave');
+      const imgPrev = $(type === 'come' ? 'imgPreviewCome' : 'imgPreviewLeave');
+
+      stopSelfieCamera(type);
+
+      try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          throw new Error('Kamera tidak didukung oleh browser Anda.');
+        }
+
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } },
+          audio: false
+        });
+
+        activeCameraStream = stream;
+        video.srcObject = stream;
+        video.classList.remove('hidden');
+        placeholder.classList.add('hidden');
+        imgPrev.classList.add('hidden');
+
+        btnOpen.classList.add('hidden');
+        btnSnap.classList.remove('hidden');
+        btnClose.classList.remove('hidden');
+      } catch (err) {
+        showToast('Tidak dapat membuka kamera langsung. Silakan gunakan tombol "Unggah".', 'error');
+      }
+    }
+
+    function snapSelfiePhoto(type) {
+      const video = $(type === 'come' ? 'videoCome' : 'videoLeave');
+      const imgPrev = $(type === 'come' ? 'imgPreviewCome' : 'imgPreviewLeave');
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('id-ID') + ' WIB';
+
+      const canvas = $('processingCanvas');
+      canvas.width = video.videoWidth || 480;
+      canvas.height = video.videoHeight || 480;
+      const ctx = canvas.getContext('2d');
+
+      // Mirror canvas for selfie
+      ctx.translate(canvas.width, 0);
+      ctx.scale(-1, 1);
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      // Watermark with timestamp on photo
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.fillStyle = 'rgba(0,0,0,0.5)';
+      ctx.fillRect(0, canvas.height - 28, canvas.width, 28);
+      ctx.font = '13px sans-serif';
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText(`${now.toLocaleDateString('id-ID')} • ${timeStr}`, 10, canvas.height - 9);
+
+      const photoData = canvas.toDataURL('image/jpeg', 0.82);
+      tempSelfieData[type] = { photo: photoData, time: timeStr, timestamp: now.getTime() };
+
+      imgPrev.src = photoData;
+      imgPrev.classList.remove('hidden');
+      video.classList.add('hidden');
+
+      stopSelfieCamera(type);
+
+      const infoBoxText = $(type === 'come' ? 'timestampTextCome' : 'timestampTextLeave');
+      infoBoxText.innerHTML = `✅ Foto selfie diambil: <b>${timeStr}</b>. Klik tombol Simpan di bawah.`;
+    }
+
+    async function handleSelfieUpload(e, type) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('id-ID') + ' WIB';
+
+      const compressed = await compressImage(file, 640, 0.8);
+      tempSelfieData[type] = { photo: compressed, time: timeStr, timestamp: now.getTime() };
+
+      const imgPrev = $(type === 'come' ? 'imgPreviewCome' : 'imgPreviewLeave');
+      const placeholder = $(type === 'come' ? 'placeholderCome' : 'placeholderLeave');
+      imgPrev.src = compressed;
+      imgPrev.classList.remove('hidden');
+      placeholder.classList.add('hidden');
+
+      const infoBoxText = $(type === 'come' ? 'timestampTextCome' : 'timestampTextLeave');
+      infoBoxText.innerHTML = `✅ Foto selfie diunggah: <b>${timeStr}</b>. Klik tombol Simpan di bawah.`;
+    }
+
+    function stopSelfieCamera(type) {
+      if (activeCameraStream) {
+        activeCameraStream.getTracks().forEach(t => t.stop());
+        activeCameraStream = null;
+      }
+      const video = $(type === 'come' ? 'videoCome' : 'videoLeave');
+      const btnOpen = $(type === 'come' ? 'btnOpenCamCome' : 'btnOpenCamLeave');
+      const btnSnap = $(type === 'come' ? 'btnSnapCamCome' : 'btnSnapCamLeave');
+      const btnClose = $(type === 'come' ? 'btnCloseCamCome' : 'btnCloseCamLeave');
+
+      video.classList.add('hidden');
+      btnOpen.classList.remove('hidden');
+      btnSnap.classList.add('hidden');
+      btnClose.classList.add('hidden');
+    }
+
+    // Universal Direct Camera modal
+    function openDirectCamera(target) {
+      universalCameraTarget = target;
+      openModal('universalCameraModal');
+      const video = $('universalVideo');
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+        .then(stream => {
+          activeCameraStream = stream;
+          video.srcObject = stream;
+        })
+        .catch(() => {
+          navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+              activeCameraStream = stream;
+              video.srcObject = stream;
+            })
+            .catch(() => {
+              showToast('Tidak dapat membuka kamera langsung.', 'error');
+              closeUniversalCamera();
+            });
+        });
+    }
+
+    function snapUniversalPhoto() {
+      const video = $('universalVideo');
+      const canvas = $('processingCanvas');
+      canvas.width = video.videoWidth || 640;
+      canvas.height = video.videoHeight || 480;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const photo = canvas.toDataURL('image/jpeg', 0.8);
+
+      if (universalCameraTarget === 'signup') {
+        $('signupAvatarPreview').src = photo;
+      } else if (universalCameraTarget === 'logEvidence') {
+        $('logEvidencePreview').src = photo;
+      } else if (universalCameraTarget === 'resumeEvidence') {
+        $('resumeEvidencePreview').src = photo;
+      } else if (universalCameraTarget === 'kelolaanEvidence') {
+        $('kelolaanEvidencePreview').src = photo;
+      }
+
+      closeUniversalCamera();
+      showToast('Foto berhasil diambil!', 'success');
+    }
+
+    function closeUniversalCamera() {
+      if (activeCameraStream) {
+        activeCameraStream.getTracks().forEach(t => t.stop());
+        activeCameraStream = null;
+      }
+      closeModal('universalCameraModal');
+    }
+
+    /* =====================================================================
+       PRESENSI CRUD & TODAY STATE
+       ===================================================================== */
+    async function savePresensi(type) {
+      const studentNPM = currentUser.role === 'admin' && activeAdminFilter !== 'ALL' ? activeAdminFilter : currentUser.npm;
+      if (studentNPM === 'admin') {
+        showToast('Admin: silakan pilih mahasiswa di menu atas untuk mencatat presensi.', 'error');
+        return;
+      }
+
+      const todayStr = new Date().toISOString().split('T')[0];
+      const todayPresensiId = `PRES_${studentNPM}_${todayStr}`;
+      let record = await dbGet('presensi', todayPresensiId);
+
+      const selfie = tempSelfieData[type];
+      if (!selfie || !selfie.photo) {
+        showToast(`Mohon ambil atau unggah foto selfie ${type === 'come' ? 'datang' : 'pulang'} terlebih dahulu.`, 'error');
+        return;
+      }
+
+      if (!record) {
+        record = {
+          id: todayPresensiId,
+          npm: studentNPM,
+          studentName: currentUser.role === 'admin' ? (await dbGet('users', studentNPM))?.name || 'Mahasiswa' : currentUser.name,
+          date: todayStr,
+          timeCome: '',
+          photoCome: '',
+          tsCome: 0,
+          timeLeave: '',
+          photoLeave: '',
+          tsLeave: 0,
+          notes: ''
+        };
+      }
+
+      if (type === 'come') {
+        record.timeCome = selfie.time;
+        record.photoCome = selfie.photo;
+        record.tsCome = selfie.timestamp;
+        const note = $('noteCome').value.trim();
+        if (note) record.notes = (record.notes ? record.notes + ' | ' : '') + note;
+      } else {
+        record.timeLeave = selfie.time;
+        record.photoLeave = selfie.photo;
+        record.tsLeave = selfie.timestamp;
+        const note = $('noteLeave').value.trim();
+        if (note) record.notes = (record.notes ? record.notes + ' | ' : '') + note;
+      }
+
+      record.updatedAt = new Date().toISOString();
+      await dbPut('presensi', record);
+
+      showToast(`Catatan Berhasil! Presensi ${type === 'come' ? 'Datang' : 'Pulang'} tersimpan pada ${selfie.time}.`, 'success');
+      tempSelfieData[type] = null;
+
+      renderPresensiToday();
+      renderPresensiList();
+    }
+
+    async function renderPresensiToday() {
+      const studentNPM = currentUser.role === 'admin' && activeAdminFilter !== 'ALL' ? activeAdminFilter : currentUser.npm;
+      if (!studentNPM || studentNPM === 'admin') return;
+
+      const todayStr = new Date().toISOString().split('T')[0];
+      const todayPresensiId = `PRES_${studentNPM}_${todayStr}`;
+      const record = await dbGet('presensi', todayPresensiId);
+
+      // Datang UI
+      if (record && record.photoCome) {
+        $('imgPreviewCome').src = record.photoCome;
+        $('imgPreviewCome').classList.remove('hidden');
+        $('placeholderCome').classList.add('hidden');
+        $('statusBadgeCome').className = 'badge badge-success';
+        $('statusBadgeCome').textContent = `Tercatat: ${record.timeCome}`;
+        $('timestampTextCome').innerHTML = `✅ Presensi Datang tercatat pada <b>${record.timeCome}</b>.`;
+        $('btnSubmitCome').textContent = '🔄 Ulang / Perbarui Presensi Datang';
+      } else {
+        $('imgPreviewCome').classList.add('hidden');
+        $('placeholderCome').classList.remove('hidden');
+        $('statusBadgeCome').className = 'badge badge-gray';
+        $('statusBadgeCome').textContent = 'Belum Tercatat';
+        $('timestampTextCome').textContent = 'Belum ada foto selfie datang hari ini.';
+        $('btnSubmitCome').textContent = '💾 Simpan Presensi Datang';
+      }
+
+      // Pulang UI
+      if (record && record.photoLeave) {
+        $('imgPreviewLeave').src = record.photoLeave;
+        $('imgPreviewLeave').classList.remove('hidden');
+        $('placeholderLeave').classList.add('hidden');
+        $('statusBadgeLeave').className = 'badge badge-success';
+        $('statusBadgeLeave').textContent = `Tercatat: ${record.timeLeave}`;
+        $('timestampTextLeave').innerHTML = `✅ Presensi Pulang tercatat pada <b>${record.timeLeave}</b>.`;
+        $('btnSubmitLeave').textContent = '🔄 Ulang / Perbarui Presensi Pulang';
+      } else {
+        $('imgPreviewLeave').classList.add('hidden');
+        $('placeholderLeave').classList.remove('hidden');
+        $('statusBadgeLeave').className = 'badge badge-gray';
+        $('statusBadgeLeave').textContent = 'Belum Tercatat';
+        $('timestampTextLeave').textContent = 'Belum ada foto selfie pulang hari ini.';
+        $('btnSubmitLeave').textContent = '💾 Simpan Presensi Pulang';
+      }
+    }
+
+    async function renderPresensiList() {
+      const container = $('presensiListContainer');
+      const allRecords = await dbGetAll('presensi');
+      const activeNPM = getActiveNPM();
+
+      let records = allRecords;
+      if (activeNPM) {
+        records = records.filter(r => r.npm === activeNPM);
+      }
+      records.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+      $('totalPresensiCount').textContent = `Total: ${records.length} Hari`;
+
+      if (records.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            <div>Belum ada data presensi tercatat. Lakukan absen datang & pulang di atas.</div>
+          </div>
+        `;
+        return;
+      }
+
+      let html = `
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                ${currentUser.role === 'admin' && activeAdminFilter === 'ALL' ? '<th>Mahasiswa</th>' : ''}
+                <th>Absen Datang</th>
+                <th>Absen Pulang</th>
+                <th>Catatan</th>
+                <th class="no-print">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+      `;
+
+      records.forEach(r => {
+        html += `
+          <tr>
+            <td><b>${esc(r.date)}</b></td>
+            ${currentUser.role === 'admin' && activeAdminFilter === 'ALL' ? `<td>${esc(r.studentName || r.npm)}<br><small style="color:#64748b">${esc(r.npm)}</small></td>` : ''}
+            <td>
+              ${r.photoCome ? `
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <img src="${r.photoCome}" class="table-thumb" onclick="openLightbox('${r.photoCome}', 'Foto Datang: ${esc(r.date)} (${esc(r.timeCome)})')" alt="Selfie Datang">
+                  <div>
+                    <span class="badge badge-success">Datang</span><br>
+                    <small><b>${esc(r.timeCome || '-')}</b></small>
+                  </div>
+                </div>
+              ` : '<span class="badge badge-gray">-</span>'}
+            </td>
+            <td>
+              ${r.photoLeave ? `
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <img src="${r.photoLeave}" class="table-thumb" onclick="openLightbox('${r.photoLeave}', 'Foto Pulang: ${esc(r.date)} (${esc(r.timeLeave)})')" alt="Selfie Pulang">
+                  <div>
+                    <span class="badge badge-primary">Pulang</span><br>
+                    <small><b>${esc(r.timeLeave || '-')}</b></small>
+                  </div>
+                </div>
+              ` : '<span class="badge badge-gray">-</span>'}
+            </td>
+            <td><small>${esc(r.notes || '-')}</small></td>
+            <td class="no-print actions-cell">
+              <button class="btn btn-sm btn-outline" onclick="openEditPresensiModal('${r.id}')" title="Edit / Ulang Presensi">
+                ✏️ Edit / Ulang
+              </button>
+              <button class="btn btn-sm btn-danger" onclick="deletePresensiRecord('${r.id}')" title="Hapus">
+                🗑️
+              </button>
+            </td>
+          </tr>
+        `;
+      });
+
+      html += `</tbody></table></div>`;
+      container.innerHTML = html;
+    }
+
+    // Open Editor Presensi Modal
+    async function openEditPresensiModal(id) {
+      const record = await dbGet('presensi', id);
+      if (!record) return;
+
+      $('editPresensiId').value = record.id;
+      $('editPresensiDate').value = record.date;
+      $('editPresensiTimeCome').value = record.timeCome || '';
+      $('editPresensiPhotoCome').src = record.photoCome || 'icon.svg';
+      $('editPresensiTimeLeave').value = record.timeLeave || '';
+      $('editPresensiPhotoLeave').src = record.photoLeave || 'icon.svg';
+      $('editPresensiNotes').value = record.notes || '';
+
+      openModal('editPresensiModal');
+    }
+
+    async function saveEditedPresensi() {
+      const id = $('editPresensiId').value;
+      const record = await dbGet('presensi', id);
+      if (!record) return;
+
+      record.timeCome = $('editPresensiTimeCome').value.trim();
+      record.photoCome = $('editPresensiPhotoCome').src;
+      record.timeLeave = $('editPresensiTimeLeave').value.trim();
+      record.photoLeave = $('editPresensiPhotoLeave').src;
+      record.notes = $('editPresensiNotes').value.trim();
+      record.updatedAt = new Date().toISOString();
+
+      await dbPut('presensi', record);
+      closeModal('editPresensiModal');
+      showToast('Perubahan presensi berhasil disimpan.', 'success');
+
+      renderPresensiToday();
+      renderPresensiList();
+    }
+
+    async function deletePresensiRecord(id) {
+      if (!confirm('Apakah Anda yakin ingin menghapus data presensi ini?')) return;
+      await dbDelete('presensi', id);
+      showToast('Presensi berhasil dihapus.', 'info');
+      renderPresensiToday();
+      renderPresensiList();
+    }
+
+    /* =====================================================================
+       LOG BOOK HARIAN CRUD
+       ===================================================================== */
+    function checkCustomActivityType(select) {
+      if (select.value === 'Lainnya') {
+        $('logCustomActivityType').classList.remove('hidden');
+        $('logCustomActivityType').focus();
+      } else {
+        $('logCustomActivityType').classList.add('hidden');
+      }
+    }
+
+    function resetLogbookForm() {
+      $('logbookEditId').value = '';
+      $('logActivityType').value = '';
+      $('logCustomActivityType').value = '';
+      $('logCustomActivityType').classList.add('hidden');
+      $('logDescription').value = '';
+      $('logEvidencePreview').src = 'icon.svg';
+      $('logEvidenceInput').value = '';
+      $('btnSaveLogbook').textContent = '💾 Simpan Log Book';
+    }
+
+    async function handleSaveLogbook(e) {
+      e.preventDefault();
+      const studentNPM = currentUser.role === 'admin' && activeAdminFilter !== 'ALL' ? activeAdminFilter : currentUser.npm;
+      if (studentNPM === 'admin') {
+        showToast('Admin: silakan pilih mahasiswa di menu atas untuk menyimpan logbook.', 'error');
+        return;
+      }
+
+      const editId = $('logbookEditId').value;
+      const date = $('logDate').value;
+      const time = $('logTime').value;
+      let activityType = $('logActivityType').value;
+      if (activityType === 'Lainnya') {
+        activityType = $('logCustomActivityType').value.trim() || 'Lainnya';
+      }
+      const description = $('logDescription').value.trim();
+      const evidence = $('logEvidencePreview').src;
+
+      if (!date || !time || !activityType || !description) {
+        showToast('Mohon lengkapi semua kolom wajib.', 'error');
+        return;
+      }
+
+      const id = editId || genId('LOG');
+      const record = {
+        id,
+        npm: studentNPM,
+        studentName: currentUser.role === 'admin' ? (await dbGet('users', studentNPM))?.name || 'Mahasiswa' : currentUser.name,
+        date,
+        time,
+        activityType,
+        description,
+        evidencePhoto: evidence.startsWith('data:') ? evidence : '',
+        updatedAt: new Date().toISOString()
+      };
+
+      await dbPut('logbook', record);
+      showToast(editId ? 'Logbook berhasil diperbarui!' : 'Logbook harian berhasil disimpan!', 'success');
+      resetLogbookForm();
+      renderLogbookList();
+    }
+
+    async function renderLogbookList() {
+      const container = $('logbookListContainer');
+      const allRecords = await dbGetAll('logbook');
+      const activeNPM = getActiveNPM();
+
+      let records = allRecords;
+      if (activeNPM) records = records.filter(r => r.npm === activeNPM);
+      records.sort((a, b) => `${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`));
+
+      $('totalLogbookCount').textContent = `${records.length} Catatan`;
+
+      if (records.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            <div>Belum ada entri logbook. Isi formulir di atas untuk menambahkan.</div>
+          </div>
+        `;
+        return;
+      }
+
+      let html = `<div class="entry-card-list">`;
+      records.forEach(r => {
+        html += `
+          <div class="entry-card">
+            <div class="entry-card-header">
+              <div>
+                <div class="entry-title">${esc(r.activityType)}</div>
+                <div class="entry-meta">
+                  <span>📅 ${esc(r.date)}</span>
+                  <span>⏰ ${esc(r.time)} WIB</span>
+                  ${currentUser.role === 'admin' && activeAdminFilter === 'ALL' ? `<span>👤 <b>${esc(r.studentName)}</b> (${esc(r.npm)})</span>` : ''}
+                </div>
+              </div>
+              <span class="badge badge-primary">Logbook</span>
+            </div>
+
+            <div class="entry-body">
+              <div class="entry-detail-row">
+                <b>Deskripsi Kegiatan:</b>
+                <div style="white-space: pre-wrap;">${esc(r.description)}</div>
+              </div>
+              ${r.evidencePhoto ? `
+                <div class="entry-evidence-row">
+                  <img src="${r.evidencePhoto}" class="table-thumb" onclick="openLightbox('${r.evidencePhoto}', 'Bukti Logbook: ${esc(r.activityType)} (${esc(r.date)})')" alt="Bukti">
+                  <span style="font-size:0.78rem; color:#64748b;">📎 Bukti kegiatan terlampir</span>
+                </div>
+              ` : ''}
+            </div>
+
+            <div class="entry-actions no-print">
+              <button class="btn btn-sm btn-outline" onclick="editLogbookRecord('${r.id}')">✏️ Edit Data</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteLogbookRecord('${r.id}')">🗑️ Hapus</button>
+            </div>
+          </div>
+        `;
+      });
+      html += `</div>`;
+      container.innerHTML = html;
+    }
+
+    async function editLogbookRecord(id) {
+      const record = await dbGet('logbook', id);
+      if (!record) return;
+
+      $('logbookEditId').value = record.id;
+      $('logDate').value = record.date;
+      $('logTime').value = record.time;
+
+      const select = $('logActivityType');
+      let found = false;
+      for (let i = 0; i < select.options.length; i++) {
+        if (select.options[i].value === record.activityType) {
+          select.selectedIndex = i;
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        select.value = 'Lainnya';
+        $('logCustomActivityType').classList.remove('hidden');
+        $('logCustomActivityType').value = record.activityType;
+      } else {
+        $('logCustomActivityType').classList.add('hidden');
+      }
+
+      $('logDescription').value = record.description;
+      $('logEvidencePreview').src = record.evidencePhoto || 'icon.svg';
+      $('btnSaveLogbook').textContent = '💾 Perbarui Log Book';
+
+      window.scrollTo({ top: $('logbookForm').offsetTop - 60, behavior: 'smooth' });
+    }
+
+    async function deleteLogbookRecord(id) {
+      if (!confirm('Hapus entri logbook ini?')) return;
+      await dbDelete('logbook', id);
+      showToast('Logbook berhasil dihapus.', 'info');
+      renderLogbookList();
+    }
+
+    /* =====================================================================
+       RESUME ASUHAN KEPERAWATAN CRUD
+       ===================================================================== */
+    function resetResumeForm() {
+      $('resumeEditId').value = '';
+      $('resumeClientInitial').value = '';
+      $('resumeClientDob').value = '';
+      $('resumeClientAge').value = '';
+      $('resumeClientGender').value = 'Laki-laki';
+      $('resumeClientHeight').value = '';
+      $('resumeClientWeight').value = '';
+      $('resumeChiefComplaint').value = '';
+      $('resumeAssessment').value = '';
+      $('resumeIntervention').value = '';
+      $('resumeImplementation').value = '';
+      $('resumeEvaluation').value = '';
+      $('resumeEvidencePreview').src = 'icon.svg';
+      $('resumeEvidenceInput').value = '';
+      $('btnSaveResume').textContent = '💾 Simpan Resume Askep';
+    }
+
+    async function handleSaveResume(e) {
+      e.preventDefault();
+      const studentNPM = currentUser.role === 'admin' && activeAdminFilter !== 'ALL' ? activeAdminFilter : currentUser.npm;
+      if (studentNPM === 'admin') {
+        showToast('Admin: silakan pilih mahasiswa di menu atas untuk menyimpan resume.', 'error');
+        return;
+      }
+
+      const editId = $('resumeEditId').value;
+      const date = $('resumeDate').value;
+      const clientInitial = $('resumeClientInitial').value.trim();
+      const clientDob = $('resumeClientDob').value;
+      const clientAge = $('resumeClientAge').value.trim();
+      const clientGender = $('resumeClientGender').value;
+      const clientHeight = $('resumeClientHeight').value;
+      const clientWeight = $('resumeClientWeight').value;
+      const chiefComplaint = $('resumeChiefComplaint').value.trim();
+      const assessment = $('resumeAssessment').value.trim();
+      const intervention = $('resumeIntervention').value.trim();
+      const implementation = $('resumeImplementation').value.trim();
+      const evaluation = $('resumeEvaluation').value.trim();
+      const evidence = $('resumeEvidencePreview').src;
+
+      if (!date || !clientInitial || !clientDob || !clientHeight || !clientWeight || !chiefComplaint) {
+        showToast('Mohon lengkapi seluruh kolom identitas dan asuhan klinis.', 'error');
+        return;
+      }
+
+      const id = editId || genId('RES');
+      const record = {
+        id,
+        npm: studentNPM,
+        studentName: currentUser.role === 'admin' ? (await dbGet('users', studentNPM))?.name || 'Mahasiswa' : currentUser.name,
+        date,
+        clientInitial,
+        clientDob,
+        clientAge,
+        clientGender,
+        clientHeight,
+        clientWeight,
+        chiefComplaint,
+        assessment,
+        intervention,
+        implementation,
+        evaluation,
+        evidencePhoto: evidence.startsWith('data:') ? evidence : '',
+        updatedAt: new Date().toISOString()
+      };
+
+      await dbPut('resume', record);
+      showToast(editId ? 'Resume askep berhasil diperbarui!' : 'Resume asuhan keperawatan berhasil disimpan!', 'success');
+      resetResumeForm();
+      renderResumeList();
+    }
+
+    async function renderResumeList() {
+      const container = $('resumeListContainer');
+      const allRecords = await dbGetAll('resume');
+      const activeNPM = getActiveNPM();
+
+      let records = allRecords;
+      if (activeNPM) records = records.filter(r => r.npm === activeNPM);
+      records.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+      $('totalResumeCount').textContent = `${records.length} Kasus`;
+
+      if (records.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            <div>Belum ada resume asuhan keperawatan. Isi formulir di atas untuk mencatat.</div>
+          </div>
+        `;
+        return;
+      }
+
+      let html = `<div class="entry-card-list">`;
+      records.forEach(r => {
+        html += `
+          <div class="entry-card">
+            <div class="entry-card-header">
+              <div>
+                <div class="entry-title">${esc(r.clientInitial)} (${esc(r.clientGender)}) • Usia: ${esc(r.clientAge || '-')}</div>
+                <div class="entry-meta">
+                  <span>📅 Tanggal: ${esc(r.date)}</span>
+                  <span>⚖️ BB: ${esc(r.clientWeight)} kg</span>
+                  <span>📏 TB: ${esc(r.clientHeight)} cm</span>
+                  ${currentUser.role === 'admin' && activeAdminFilter === 'ALL' ? `<span>👤 <b>${esc(r.studentName)}</b> (${esc(r.npm)})</span>` : ''}
+                </div>
+              </div>
+              <span class="badge badge-success">Resume Askep</span>
+            </div>
+
+            <div class="entry-body">
+              <div class="entry-detail-row">
+                <b>Keluhan Utama:</b>
+                <div>${esc(r.chiefComplaint)}</div>
+              </div>
+              <div class="entry-detail-row">
+                <b>Pengkajian:</b>
+                <div style="white-space: pre-wrap;">${esc(r.assessment)}</div>
+              </div>
+              <div class="entry-detail-row">
+                <b>Intervensi:</b>
+                <div style="white-space: pre-wrap;">${esc(r.intervention)}</div>
+              </div>
+              <div class="entry-detail-row">
+                <b>Implementasi:</b>
+                <div style="white-space: pre-wrap;">${esc(r.implementation)}</div>
+              </div>
+              <div class="entry-detail-row">
+                <b>Evaluasi (SOAP):</b>
+                <div style="white-space: pre-wrap;">${esc(r.evaluation)}</div>
+              </div>
+
+              ${r.evidencePhoto ? `
+                <div class="entry-evidence-row">
+                  <img src="${r.evidencePhoto}" class="table-thumb" onclick="openLightbox('${r.evidencePhoto}', 'Bukti Resume: ${esc(r.clientInitial)} (${esc(r.date)})')" alt="Bukti">
+                  <span style="font-size:0.78rem; color:#64748b;">📎 Bukti resume keperawatan terlampir</span>
+                </div>
+              ` : ''}
+            </div>
+
+            <div class="entry-actions no-print">
+              <button class="btn btn-sm btn-outline" onclick="editResumeRecord('${r.id}')">✏️ Edit Data</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteResumeRecord('${r.id}')">🗑️ Hapus</button>
+            </div>
+          </div>
+        `;
+      });
+      html += `</div>`;
+      container.innerHTML = html;
+    }
+
+    async function editResumeRecord(id) {
+      const record = await dbGet('resume', id);
+      if (!record) return;
+
+      $('resumeEditId').value = record.id;
+      $('resumeDate').value = record.date;
+      $('resumeClientInitial').value = record.clientInitial;
+      $('resumeClientDob').value = record.clientDob;
+      $('resumeClientAge').value = record.clientAge;
+      $('resumeClientGender').value = record.clientGender;
+      $('resumeClientHeight').value = record.clientHeight;
+      $('resumeClientWeight').value = record.clientWeight;
+      $('resumeChiefComplaint').value = record.chiefComplaint;
+      $('resumeAssessment').value = record.assessment;
+      $('resumeIntervention').value = record.intervention;
+      $('resumeImplementation').value = record.implementation;
+      $('resumeEvaluation').value = record.evaluation;
+      $('resumeEvidencePreview').src = record.evidencePhoto || 'icon.svg';
+      $('btnSaveResume').textContent = '💾 Perbarui Resume Askep';
+
+      window.scrollTo({ top: $('resumeForm').offsetTop - 60, behavior: 'smooth' });
+    }
+
+    async function deleteResumeRecord(id) {
+      if (!confirm('Hapus resume asuhan keperawatan ini?')) return;
+      await dbDelete('resume', id);
+      showToast('Resume askep berhasil dihapus.', 'info');
+      renderResumeList();
+    }
+
+    /* =====================================================================
+       LAPORAN KELOLAAN CRUD
+       ===================================================================== */
+    function resetKelolaanForm() {
+      $('kelolaanEditId').value = '';
+      $('kelolaanClientInitial').value = '';
+      $('kelolaanClientDob').value = '';
+      $('kelolaanClientAge').value = '';
+      $('kelolaanClientGender').value = 'Laki-laki';
+      $('kelolaanClientHeight').value = '';
+      $('kelolaanClientWeight').value = '';
+      $('kelolaanChiefComplaint').value = '';
+      $('kelolaanAssessment').value = '';
+      $('kelolaanIntervention').value = '';
+      $('kelolaanImplementation').value = '';
+      $('kelolaanEvaluation').value = '';
+      $('kelolaanEvidencePreview').src = 'icon.svg';
+      $('kelolaanEvidenceInput').value = '';
+      $('btnSaveKelolaan').textContent = '💾 Simpan Laporan Kelolaan';
+    }
+
+    async function handleSaveKelolaan(e) {
+      e.preventDefault();
+      const studentNPM = currentUser.role === 'admin' && activeAdminFilter !== 'ALL' ? activeAdminFilter : currentUser.npm;
+      if (studentNPM === 'admin') {
+        showToast('Admin: silakan pilih mahasiswa di menu atas untuk menyimpan laporan kelolaan.', 'error');
+        return;
+      }
+
+      const editId = $('kelolaanEditId').value;
+      const date = $('kelolaanDate').value;
+      const clientInitial = $('kelolaanClientInitial').value.trim();
+      const clientDob = $('kelolaanClientDob').value;
+      const clientAge = $('kelolaanClientAge').value.trim();
+      const clientGender = $('kelolaanClientGender').value;
+      const clientHeight = $('kelolaanClientHeight').value;
+      const clientWeight = $('kelolaanClientWeight').value;
+      const chiefComplaint = $('kelolaanChiefComplaint').value.trim();
+      const assessment = $('kelolaanAssessment').value.trim();
+      const intervention = $('kelolaanIntervention').value.trim();
+      const implementation = $('kelolaanImplementation').value.trim();
+      const evaluation = $('kelolaanEvaluation').value.trim();
+      const evidence = $('kelolaanEvidencePreview').src;
+
+      if (!date || !clientInitial || !clientDob || !clientHeight || !clientWeight || !chiefComplaint) {
+        showToast('Mohon lengkapi seluruh kolom identitas dan isi laporan kelolaan.', 'error');
+        return;
+      }
+
+      const id = editId || genId('KEL');
+      const record = {
+        id,
+        npm: studentNPM,
+        studentName: currentUser.role === 'admin' ? (await dbGet('users', studentNPM))?.name || 'Mahasiswa' : currentUser.name,
+        date,
+        clientInitial,
+        clientDob,
+        clientAge,
+        clientGender,
+        clientHeight,
+        clientWeight,
+        chiefComplaint,
+        assessment,
+        intervention,
+        implementation,
+        evaluation,
+        evidencePhoto: evidence.startsWith('data:') ? evidence : '',
+        updatedAt: new Date().toISOString()
+      };
+
+      await dbPut('kelolaan', record);
+      showToast(editId ? 'Laporan kelolaan berhasil diperbarui!' : 'Laporan kasus kelolaan berhasil disimpan!', 'success');
+      resetKelolaanForm();
+      renderKelolaanList();
+    }
+
+    async function renderKelolaanList() {
+      const container = $('kelolaanListContainer');
+      const allRecords = await dbGetAll('kelolaan');
+      const activeNPM = getActiveNPM();
+
+      let records = allRecords;
+      if (activeNPM) records = records.filter(r => r.npm === activeNPM);
+      records.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+      $('totalKelolaanCount').textContent = `${records.length} Laporan`;
+
+      if (records.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+            <div>Belum ada laporan kasus kelolaan. Isi formulir di atas untuk mencatat.</div>
+          </div>
+        `;
+        return;
+      }
+
+      let html = `<div class="entry-card-list">`;
+      records.forEach(r => {
+        html += `
+          <div class="entry-card">
+            <div class="entry-card-header">
+              <div>
+                <div class="entry-title">Kasus Kelolaan: ${esc(r.clientInitial)} (${esc(r.clientGender)}) • ${esc(r.clientAge || '-')}</div>
+                <div class="entry-meta">
+                  <span>📅 Tanggal: ${esc(r.date)}</span>
+                  <span>⚖️ BB: ${esc(r.clientWeight)} kg</span>
+                  <span>📏 TB: ${esc(r.clientHeight)} cm</span>
+                  ${currentUser.role === 'admin' && activeAdminFilter === 'ALL' ? `<span>👤 <b>${esc(r.studentName)}</b> (${esc(r.npm)})</span>` : ''}
+                </div>
+              </div>
+              <span class="badge badge-primary">Kasus Kelolaan</span>
+            </div>
+
+            <div class="entry-body">
+              <div class="entry-detail-row">
+                <b>Keluhan Utama:</b>
+                <div>${esc(r.chiefComplaint)}</div>
+              </div>
+              <div class="entry-detail-row">
+                <b>Pengkajian Mendalam:</b>
+                <div style="white-space: pre-wrap;">${esc(r.assessment)}</div>
+              </div>
+              <div class="entry-detail-row">
+                <b>Intervensi Komprehensif:</b>
+                <div style="white-space: pre-wrap;">${esc(r.intervention)}</div>
+              </div>
+              <div class="entry-detail-row">
+                <b>Implementasi:</b>
+                <div style="white-space: pre-wrap;">${esc(r.implementation)}</div>
+              </div>
+              <div class="entry-detail-row">
+                <b>Evaluasi (SOAP):</b>
+                <div style="white-space: pre-wrap;">${esc(r.evaluation)}</div>
+              </div>
+
+              ${r.evidencePhoto ? `
+                <div class="entry-evidence-row">
+                  <img src="${r.evidencePhoto}" class="table-thumb" onclick="openLightbox('${r.evidencePhoto}', 'Bukti Laporan: ${esc(r.clientInitial)} (${esc(r.date)})')" alt="Bukti">
+                  <span style="font-size:0.78rem; color:#64748b;">📎 Bukti lembar laporan kelolaan terlampir</span>
+                </div>
+              ` : ''}
+            </div>
+
+            <div class="entry-actions no-print">
+              <button class="btn btn-sm btn-outline" onclick="editKelolaanRecord('${r.id}')">✏️ Edit Data</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteKelolaanRecord('${r.id}')">🗑️ Hapus</button>
+            </div>
+          </div>
+        `;
+      });
+      html += `</div>`;
+      container.innerHTML = html;
+    }
+
+    async function editKelolaanRecord(id) {
+      const record = await dbGet('kelolaan', id);
+      if (!record) return;
+
+      $('kelolaanEditId').value = record.id;
+      $('kelolaanDate').value = record.date;
+      $('kelolaanClientInitial').value = record.clientInitial;
+      $('kelolaanClientDob').value = record.clientDob;
+      $('kelolaanClientAge').value = record.clientAge;
+      $('kelolaanClientGender').value = record.clientGender;
+      $('kelolaanClientHeight').value = record.clientHeight;
+      $('kelolaanClientWeight').value = record.clientWeight;
+      $('kelolaanChiefComplaint').value = record.chiefComplaint;
+      $('kelolaanAssessment').value = record.assessment;
+      $('kelolaanIntervention').value = record.intervention;
+      $('kelolaanImplementation').value = record.implementation;
+      $('kelolaanEvaluation').value = record.evaluation;
+      $('kelolaanEvidencePreview').src = record.evidencePhoto || 'icon.svg';
+      $('btnSaveKelolaan').textContent = '💾 Perbarui Laporan Kelolaan';
+
+      window.scrollTo({ top: $('kelolaanForm').offsetTop - 60, behavior: 'smooth' });
+    }
+
+    async function deleteKelolaanRecord(id) {
+      if (!confirm('Hapus laporan kasus kelolaan ini?')) return;
+      await dbDelete('kelolaan', id);
+      showToast('Laporan kelolaan berhasil dihapus.', 'info');
+      renderKelolaanList();
+    }
+
+    /* =====================================================================
+       DOWNLOAD & EXPORT (PDF, CSV, JSON)
+       Harian, Mingguan, & Seluruh Data
+       ===================================================================== */
+    function toggleExportPeriodInputs() {
+      const p = $('exportPeriodType').value;
+      if (p === 'daily') {
+        $('groupExportDaily').classList.remove('hidden');
+        $('groupExportWeekly').classList.add('hidden');
+      } else if (p === 'weekly') {
+        $('groupExportDaily').classList.add('hidden');
+        $('groupExportWeekly').classList.remove('hidden');
+      } else {
+        $('groupExportDaily').classList.add('hidden');
+        $('groupExportWeekly').classList.add('hidden');
+      }
+    }
+
+    async function getFilteredDataForExport() {
+      const reportType = $('exportReportType').value; // 'ALL', 'presensi', 'logbook', 'resume', 'kelolaan'
+      const periodType = $('exportPeriodType').value; // 'all', 'daily', 'weekly'
+      const dailyDate = $('exportDailyDate').value;
+      const weeklyStartDate = $('exportWeeklyStartDate').value;
+      const activeNPM = getActiveNPM();
+
+      let targetStudent = null;
+      if (activeNPM) {
+        targetStudent = await dbGet('users', activeNPM);
+      }
+
+      // Calculate date boundary
+      let minDate = '', maxDate = '';
+      if (periodType === 'daily') {
+        minDate = dailyDate;
+        maxDate = dailyDate;
+      } else if (periodType === 'weekly') {
+        minDate = weeklyStartDate;
+        if (weeklyStartDate) {
+          const d = new Date(weeklyStartDate);
+          d.setDate(d.getDate() + 6);
+          maxDate = d.toISOString().split('T')[0];
+        }
+      }
+
+      const matchPeriod = (dateStr) => {
+        if (periodType === 'all') return true;
+        if (!dateStr) return false;
+        if (minDate && dateStr < minDate) return false;
+        if (maxDate && dateStr > maxDate) return false;
+        return true;
+      };
+
+      const filterByStudent = (arr) => {
+        if (!activeNPM) return arr;
+        return arr.filter(x => x.npm === activeNPM);
+      };
+
+      const result = {
+        metadata: {
+          app: 'KepAn Profesi Keperawatan Anak',
+          generatedAt: new Date().toISOString(),
+          reportType,
+          periodType,
+          periodRange: periodType === 'all' ? 'Seluruh Data Lengkap' : `${minDate} s/d ${maxDate}`,
+          student: targetStudent || { name: 'Semua Mahasiswa', npm: 'ALL' }
+        },
+        presensi: [],
+        logbook: [],
+        resume: [],
+        kelolaan: []
+      };
+
+      if (reportType === 'ALL' || reportType === 'presensi') {
+        const pres = await dbGetAll('presensi');
+        result.presensi = filterByStudent(pres).filter(r => matchPeriod(r.date));
+      }
+      if (reportType === 'ALL' || reportType === 'logbook') {
+        const logs = await dbGetAll('logbook');
+        result.logbook = filterByStudent(logs).filter(r => matchPeriod(r.date));
+      }
+      if (reportType === 'ALL' || reportType === 'resume') {
+        const res = await dbGetAll('resume');
+        result.resume = filterByStudent(res).filter(r => matchPeriod(r.date));
+      }
+      if (reportType === 'ALL' || reportType === 'kelolaan') {
+        const kel = await dbGetAll('kelolaan');
+        result.kelolaan = filterByStudent(kel).filter(r => matchPeriod(r.date));
+      }
+
+      return result;
+    }
+
+    async function triggerExport(format) {
+      const data = await getFilteredDataForExport();
+
+      const totalItems = data.presensi.length + data.logbook.length + data.resume.length + data.kelolaan.length;
+      if (totalItems === 0) {
+        showToast('Tidak ada data pada periode/kategori yang dipilih.', 'error');
+        return;
+      }
+
+      const dateTag = data.metadata.periodType === 'all' ? 'LENGKAP' : data.metadata.periodRange.replace(/[^a-zA-Z0-9]/g, '_');
+      const filenameBase = `KepAn_${data.metadata.student.npm}_${data.metadata.reportType}_${dateTag}`;
+
+      if (format === 'json') {
+        exportAsJSON(data, `${filenameBase}.json`);
+      } else if (format === 'csv') {
+        exportAsCSV(data, `${filenameBase}.csv`);
+      } else if (format === 'pdf') {
+        exportAsPDF(data);
+      }
+    }
+
+    // JSON Export
+    function exportAsJSON(data, filename) {
+      const jsonStr = JSON.stringify(data, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8;' });
+      downloadBlob(blob, filename);
+      showToast('Berkas JSON berhasil diunduh.', 'success');
+    }
+
+    // CSV Export
+    function exportAsCSV(data, filename) {
+      let csvContent = '\uFEFF'; // UTF-8 BOM for Excel compatibility
+
+      const escCSV = (str) => `"${String(str ?? '').replace(/"/g, '""').replace(/\r?\n/g, ' ')}"`;
+
+      // 1. Presensi CSV
+      if (data.presensi.length > 0) {
+        csvContent += '=== LAPORAN PRESENSI MAHASISWA ===\n';
+        csvContent += ['NPM', 'Nama Mahasiswa', 'Tanggal', 'Jam Datang', 'Jam Pulang', 'Catatan', 'Foto Datang', 'Foto Pulang'].map(escCSV).join(',') + '\n';
+        data.presensi.forEach(r => {
+          csvContent += [
+            r.npm,
+            r.studentName || '-',
+            r.date,
+            r.timeCome || '-',
+            r.timeLeave || '-',
+            r.notes || '-',
+            r.photoCome ? 'TERLAMPIR' : '-',
+            r.photoLeave ? 'TERLAMPIR' : '-'
+          ].map(escCSV).join(',') + '\n';
+        });
+        csvContent += '\n';
+      }
+
+      // 2. Logbook CSV
+      if (data.logbook.length > 0) {
+        csvContent += '=== LAPORAN LOG BOOK HARIAN ===\n';
+        csvContent += ['NPM', 'Nama Mahasiswa', 'Tanggal', 'Jam', 'Jenis Kegiatan', 'Deskripsi Lengkap', 'Bukti Foto'].map(escCSV).join(',') + '\n';
+        data.logbook.forEach(r => {
+          csvContent += [
+            r.npm,
+            r.studentName || '-',
+            r.date,
+            r.time,
+            r.activityType,
+            r.description,
+            r.evidencePhoto ? 'TERLAMPIR' : '-'
+          ].map(escCSV).join(',') + '\n';
+        });
+        csvContent += '\n';
+      }
+
+      // 3. Resume Askep CSV
+      if (data.resume.length > 0) {
+        csvContent += '=== LAPORAN RESUME ASUHAN KEPERAWATAN ===\n';
+        csvContent += ['NPM', 'Nama Mahasiswa', 'Tanggal', 'Inisial Klien', 'Usia', 'Jenis Kelamin', 'TB (cm)', 'BB (kg)', 'Keluhan Utama', 'Pengkajian', 'Intervensi', 'Implementasi', 'Evaluasi SOAP'].map(escCSV).join(',') + '\n';
+        data.resume.forEach(r => {
+          csvContent += [
+            r.npm,
+            r.studentName || '-',
+            r.date,
+            r.clientInitial,
+            r.clientAge || '-',
+            r.clientGender,
+            r.clientHeight,
+            r.clientWeight,
+            r.chiefComplaint,
+            r.assessment,
+            r.intervention,
+            r.implementation,
+            r.evaluation
+          ].map(escCSV).join(',') + '\n';
+        });
+        csvContent += '\n';
+      }
+
+      // 4. Kelolaan CSV
+      if (data.kelolaan.length > 0) {
+        csvContent += '=== LAPORAN KASUS KELOLAAN ===\n';
+        csvContent += ['NPM', 'Nama Mahasiswa', 'Tanggal', 'Inisial Klien', 'Usia', 'Jenis Kelamin', 'TB (cm)', 'BB (kg)', 'Keluhan Utama', 'Pengkajian Mendalam', 'Intervensi', 'Implementasi', 'Evaluasi SOAP'].map(escCSV).join(',') + '\n';
+        data.kelolaan.forEach(r => {
+          csvContent += [
+            r.npm,
+            r.studentName || '-',
+            r.date,
+            r.clientInitial,
+            r.clientAge || '-',
+            r.clientGender,
+            r.clientHeight,
+            r.clientWeight,
+            r.chiefComplaint,
+            r.assessment,
+            r.intervention,
+            r.implementation,
+            r.evaluation
+          ].map(escCSV).join(',') + '\n';
+        });
+        csvContent += '\n';
+      }
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      downloadBlob(blob, filename);
+      showToast('Berkas CSV berhasil diunduh.', 'success');
+    }
+
+    // PDF Export (Print-ready document)
+    function exportAsPDF(data) {
+      const printContainer = $('printReportContainer');
+      const st = data.metadata.student;
+
+      let html = `
+        <div style="font-family: Arial, sans-serif; padding: 20px; line-height: 1.4; color: #000;">
+          <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 12px; margin-bottom: 18px;">
+            <h2 style="margin: 0; font-size: 16pt; text-transform: uppercase;">DOKUMENTASI PRAKTIK PROFESI KEPERAWATAN ANAK</h2>
+            <div style="font-size: 11pt; margin-top: 4px;">Laporan Dokumentasi & Evaluasi Praktik Profesi Ners</div>
+            <div style="font-size: 9pt; color: #444; margin-top: 2px;">Periode Laporan: <b>${esc(data.metadata.periodRange)}</b> | Dicetak: ${new Date().toLocaleDateString('id-ID')} ${new Date().toLocaleTimeString('id-ID')}</div>
+          </div>
+
+          <!-- Student Identity Box in Print -->
+          <div style="display: flex; gap: 16px; border: 1px solid #999; padding: 12px; border-radius: 6px; margin-bottom: 20px; align-items: center;">
+            <img src="${st.photo || 'icon.svg'}" style="width: 70px; height: 70px; border-radius: 6px; object-fit: cover; border: 1px solid #888;" alt="Foto Mahasiswa">
+            <div style="font-size: 10pt;">
+              <table style="border: none; text-align: left;">
+                <tr><td style="width: 140px; font-weight: bold;">Nama Mahasiswa</td><td>: ${esc(st.name)}</td></tr>
+                <tr><td style="font-weight: bold;">NPM</td><td>: ${esc(st.npm)}</td></tr>
+                <tr><td style="font-weight: bold;">Jenis Kelamin</td><td>: ${esc(st.gender || '-')}</td></tr>
+                <tr><td style="font-weight: bold;">Stase Praktik</td><td>: Keperawatan Anak (Pediatric Nursing)</td></tr>
+              </table>
+            </div>
+          </div>
+      `;
+
+      // 1. Presensi Section
+      if (data.presensi.length > 0) {
+        html += `
+          <h3 style="font-size: 12pt; border-bottom: 1px solid #444; padding-bottom: 4px; margin-top: 24px;">I. DAFTAR PRESENSI & BUKTI SELFIE</h3>
+          <table style="width: 100%; border-collapse: collapse; font-size: 9pt; margin-top: 8px;">
+            <thead>
+              <tr style="background: #e2e8f0;">
+                <th style="border: 1px solid #777; padding: 6px;">Tanggal</th>
+                <th style="border: 1px solid #777; padding: 6px;">Jam Datang</th>
+                <th style="border: 1px solid #777; padding: 6px;">Foto Datang</th>
+                <th style="border: 1px solid #777; padding: 6px;">Jam Pulang</th>
+                <th style="border: 1px solid #777; padding: 6px;">Foto Pulang</th>
+                <th style="border: 1px solid #777; padding: 6px;">Catatan</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+        data.presensi.forEach(p => {
+          html += `
+            <tr>
+              <td style="border: 1px solid #777; padding: 6px; text-align: center;">${esc(p.date)}</td>
+              <td style="border: 1px solid #777; padding: 6px; text-align: center;">${esc(p.timeCome || '-')}</td>
+              <td style="border: 1px solid #777; padding: 6px; text-align: center;">
+                ${p.photoCome ? `<img src="${p.photoCome}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">` : '-'}
+              </td>
+              <td style="border: 1px solid #777; padding: 6px; text-align: center;">${esc(p.timeLeave || '-')}</td>
+              <td style="border: 1px solid #777; padding: 6px; text-align: center;">
+                ${p.photoLeave ? `<img src="${p.photoLeave}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">` : '-'}
+              </td>
+              <td style="border: 1px solid #777; padding: 6px;">${esc(p.notes || '-')}</td>
+            </tr>
+          `;
+        });
+        html += `</tbody></table>`;
+      }
+
+      // 2. Logbook Section
+      if (data.logbook.length > 0) {
+        html += `
+          <h3 style="font-size: 12pt; border-bottom: 1px solid #444; padding-bottom: 4px; margin-top: 24px;">II. LOG BOOK HARIAN PRAKTIK</h3>
+          <table style="width: 100%; border-collapse: collapse; font-size: 9pt; margin-top: 8px;">
+            <thead>
+              <tr style="background: #e2e8f0;">
+                <th style="border: 1px solid #777; padding: 6px; width: 75px;">Waktu</th>
+                <th style="border: 1px solid #777; padding: 6px; width: 140px;">Jenis Kegiatan</th>
+                <th style="border: 1px solid #777; padding: 6px;">Deskripsi Lengkap & Capaian Tindakan</th>
+                <th style="border: 1px solid #777; padding: 6px; width: 65px;">Bukti</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+        data.logbook.forEach(l => {
+          html += `
+            <tr>
+              <td style="border: 1px solid #777; padding: 6px; text-align: center;">${esc(l.date)}<br><small>${esc(l.time)}</small></td>
+              <td style="border: 1px solid #777; padding: 6px;"><b>${esc(l.activityType)}</b></td>
+              <td style="border: 1px solid #777; padding: 6px; white-space: pre-wrap;">${esc(l.description)}</td>
+              <td style="border: 1px solid #777; padding: 6px; text-align: center;">
+                ${l.evidencePhoto ? `<img src="${l.evidencePhoto}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">` : '-'}
+              </td>
+            </tr>
+          `;
+        });
+        html += `</tbody></table>`;
+      }
+
+      // 3. Resume Section
+      if (data.resume.length > 0) {
+        html += `
+          <h3 style="font-size: 12pt; border-bottom: 1px solid #444; padding-bottom: 4px; margin-top: 24px;">III. RESUME ASUHAN KEPERAWATAN</h3>
+        `;
+        data.resume.forEach((r, idx) => {
+          html += `
+            <div style="border: 1px solid #777; padding: 10px; border-radius: 6px; margin-top: 10px; font-size: 9pt; page-break-inside: avoid;">
+              <div style="font-weight: bold; background: #e2e8f0; padding: 4px 8px; margin: -10px -10px 8px; border-top-left-radius: 5px; border-top-right-radius: 5px;">
+                Kasus #${idx + 1}: ${esc(r.clientInitial)} (${esc(r.clientGender)}) • Usia: ${esc(r.clientAge || '-')} • BB: ${esc(r.clientWeight)} kg • TB: ${esc(r.clientHeight)} cm | Tgl: ${esc(r.date)}
+              </div>
+              <div><b>Keluhan Utama:</b> ${esc(r.chiefComplaint)}</div>
+              <div style="margin-top: 4px;"><b>Pengkajian:</b> ${esc(r.assessment)}</div>
+              <div style="margin-top: 4px;"><b>Intervensi Keperawatan:</b> ${esc(r.intervention)}</div>
+              <div style="margin-top: 4px;"><b>Implementasi:</b> ${esc(r.implementation)}</div>
+              <div style="margin-top: 4px;"><b>Evaluasi (SOAP):</b> ${esc(r.evaluation)}</div>
+              ${r.evidencePhoto ? `
+                <div style="margin-top: 6px;">
+                  <b>Bukti Resume:</b><br>
+                  <img src="${r.evidencePhoto}" style="max-height: 90px; border-radius: 4px; margin-top: 4px; border: 1px solid #ccc;">
+                </div>
+              ` : ''}
+            </div>
+          `;
+        });
+      }
+
+      // 4. Kelolaan Section
+      if (data.kelolaan.length > 0) {
+        html += `
+          <h3 style="font-size: 12pt; border-bottom: 1px solid #444; padding-bottom: 4px; margin-top: 24px;">IV. LAPORAN KASUS KELOLAAN</h3>
+        `;
+        data.kelolaan.forEach((k, idx) => {
+          html += `
+            <div style="border: 1px solid #777; padding: 10px; border-radius: 6px; margin-top: 10px; font-size: 9pt; page-break-inside: avoid;">
+              <div style="font-weight: bold; background: #ccfbf1; padding: 4px 8px; margin: -10px -10px 8px; border-top-left-radius: 5px; border-top-right-radius: 5px;">
+                Kasus Kelolaan #${idx + 1}: ${esc(k.clientInitial)} (${esc(k.clientGender)}) • Usia: ${esc(k.clientAge || '-')} • BB: ${esc(k.clientWeight)} kg • TB: ${esc(k.clientHeight)} cm | Tgl: ${esc(k.date)}
+              </div>
+              <div><b>Keluhan Utama:</b> ${esc(k.chiefComplaint)}</div>
+              <div style="margin-top: 4px;"><b>Pengkajian Mendalam:</b> ${esc(k.assessment)}</div>
+              <div style="margin-top: 4px;"><b>Intervensi Komprehensif:</b> ${esc(k.intervention)}</div>
+              <div style="margin-top: 4px;"><b>Implementasi:</b> ${esc(k.implementation)}</div>
+              <div style="margin-top: 4px;"><b>Evaluasi Perkembangan (SOAP):</b> ${esc(k.evaluation)}</div>
+              ${k.evidencePhoto ? `
+                <div style="margin-top: 6px;">
+                  <b>Bukti Laporan Kelolaan:</b><br>
+                  <img src="${k.evidencePhoto}" style="max-height: 90px; border-radius: 4px; margin-top: 4px; border: 1px solid #ccc;">
+                </div>
+              ` : ''}
+            </div>
+          `;
+        });
+      }
+
+      // Signature Section
+      html += `
+        <div style="margin-top: 40px; display: flex; justify-content: space-between; font-size: 10pt; page-break-inside: avoid;">
+          <div style="text-align: center; width: 200px;">
+            Mengetahui,<br>Pembimbing / Preseptor Klinik
+            <div style="height: 65px;"></div>
+            ( ________________________ )<br>
+            NIP/NIDN:
+          </div>
+          <div style="text-align: center; width: 200px;">
+            Mahasiswa Praktikan,
+            <div style="height: 65px;"></div>
+            ( <b>${esc(st.name)}</b> )<br>
+            NPM: ${esc(st.npm)}
+          </div>
+        </div>
+      </div>
+      `;
+
+      printContainer.innerHTML = html;
+      window.print();
+    }
+
+    function downloadBlob(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        URL.revokeObjectURL(url);
+        a.remove();
+      }, 800);
+    }
+
+    // JSON Import / Restore
+    async function handleImportJSON(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = async () => {
+        try {
+          const imported = JSON.parse(reader.result);
+          if (!imported || typeof imported !== 'object') {
+            throw new Error('Format JSON tidak valid.');
+          }
+
+          let count = 0;
+          if (Array.isArray(imported.presensi)) {
+            for (const p of imported.presensi) { await dbPut('presensi', p); count++; }
+          }
+          if (Array.isArray(imported.logbook)) {
+            for (const l of imported.logbook) { await dbPut('logbook', l); count++; }
+          }
+          if (Array.isArray(imported.resume)) {
+            for (const r of imported.resume) { await dbPut('resume', r); count++; }
+          }
+          if (Array.isArray(imported.kelolaan)) {
+            for (const k of imported.kelolaan) { await dbPut('kelolaan', k); count++; }
+          }
+
+          showToast(`Berhasil memulihkan ${count} data dari file cadangan!`, 'success');
+          renderPresensiToday();
+          renderPresensiList();
+          renderLogbookList();
+          renderResumeList();
+          renderKelolaanList();
+        } catch (err) {
+          showToast(`Gagal mengimpor file: ${err.message}`, 'error');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    /* =====================================================================
+       LIGHTBOX FOTO MODAL
+       ===================================================================== */
+    function openLightbox(imgSrc, caption) {
+      $('lightboxImg').src = imgSrc;
+      $('lightboxCaption').textContent = caption || '';
+      openModal('lightboxModal');
+    }
+
+    /* =====================================================================
+       ADMIN USER MANAGEMENT MODAL
+       ===================================================================== */
+    async function openUserManagementModal() {
+      const container = $('adminUserListContainer');
+      const users = await dbGetAll('users');
+
+      if (users.length === 0) {
+        container.innerHTML = '<p class="text-center" style="color:#64748b; padding:20px;">Belum ada akun mahasiswa yang terdaftar di perangkat ini.</p>';
+        openModal('userManagementModal');
+        return;
+      }
+
+      let html = `
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Foto</th>
+              <th>Nama Mahasiswa</th>
+              <th>NPM</th>
+              <th>Jenis Kelamin</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+      users.forEach(u => {
+        html += `
+          <tr>
+            <td><img src="${u.photo || 'icon.svg'}" class="table-thumb" style="border-radius:50%;" alt="Foto"></td>
+            <td><b>${esc(u.name)}</b></td>
+            <td>${esc(u.npm)}</td>
+            <td>${esc(u.gender)}</td>
+            <td>
+              <button class="btn btn-sm btn-danger" onclick="deleteStudentAccount('${u.npm}')">Hapus Akun</button>
+            </td>
+          </tr>
+        `;
+      });
+      html += `</tbody></table>`;
+      container.innerHTML = html;
+      openModal('userManagementModal');
+    }
+
+    async function deleteStudentAccount(npm) {
+      if (!confirm(`Hapus akun mahasiswa NPM ${npm}? Seluruh data mahasiswa ini akan dihapus.`)) return;
+      await dbDelete('users', npm);
+      showToast(`Akun NPM ${npm} telah dihapus.`, 'info');
+      await populateAdminStudentSelect();
+      openUserManagementModal();
+      renderPresensiToday();
+      renderPresensiList();
+      renderLogbookList();
+      renderResumeList();
+      renderKelolaanList();
+    }
+
+    /* =====================================================================
+       PWA SERVICE WORKER REGISTRATION & APP INIT
+       ===================================================================== */
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('Service Worker terdaftar:', reg.scope))
+          .catch(err => console.log('Gagal mendaftarkan Service Worker:', err));
+      });
+    }
+
+    // App Initialization
+    async function initApp() {
+      try {
+        await openDatabase();
+        const sessionMeta = await dbGet('meta', 'session');
+        if (sessionMeta && sessionMeta.user) {
+          currentUser = sessionMeta.user;
+          showAppDashboard();
+        } else {
+          $('authView').classList.remove('hidden');
+          $('appView').classList.add('hidden');
+        }
+      } catch (err) {
+        console.error('Inisialisasi database gagal:', err);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>

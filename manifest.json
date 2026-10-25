@@ -1,0 +1,19 @@
+{
+  "name": "Dokumentasi Praktik Profesi Keperawatan Anak",
+  "short_name": "KepAn Profesi",
+  "description": "Aplikasi HTML PWA Offline untuk Dokumentasi dan Pelaporan Praktik Profesi Keperawatan Anak",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0f766e",
+  "theme_color": "#0f766e",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

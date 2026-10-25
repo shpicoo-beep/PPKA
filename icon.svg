@@ -1,0 +1,22 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='512' height='512'>
+  <defs>
+    <linearGradient id='bg' x1='0%' y1='0%' x2='100%' y2='100%'>
+      <stop offset='0%' stop-color='#0f766e' />
+      <stop offset='100%' stop-color='#115e59' />
+    </linearGradient>
+    <filter id='shadow' x='-10%' y='-10%' width='120%' height='120%'>
+      <feDropShadow dx='0' dy='8' stdDeviation='12' flood-color='#000000' flood-opacity='0.25' />
+    </filter>
+  </defs>
+  <rect width='512' height='512' rx='100' fill='url(#bg)' />
+  <circle cx='256' cy='256' r='180' fill='#ffffff' opacity='0.08' />
+  <!-- Stethoscope / Medical Heart Icon -->
+  <g filter='url(#shadow)' transform='translate(64, 64) scale(0.75)'>
+    <path fill='#ffffff' d='M256 112c-44.2 0-80 35.8-80 80v72c0 13.3 10.7 24 24 24s24-10.7 24-24v-72c0-17.7 14.3-32 32-32s32 14.3 32 32v72c0 13.3 10.7 24 24 24s24-10.7 24-24v-72c0-44.2-35.8-80-80-80z'/>
+    <path fill='#ffffff' d='M256 320c-53 0-96-43-96-96v-24c0-8.8-7.2-16-16-16s-16 7.2-16 16v24c0 67.4 52.4 122.7 118.7 127.6v45.1c-17.9 4.7-30.7 21-30.7 40.3 0 23.2 18.8 42 42 42s42-18.8 42-42c0-19.3-12.8-35.6-30.7-40.3v-45.1C347.6 346.7 400 291.4 400 224v-24c0-8.8-7.2-16-16-16s-16 7.2-16 16v24c0 53-43 96-96 96z'/>
+    <!-- Pediatric Bear / Child Silhouette or Cross -->
+    <path fill='#38bdf8' d='M256 16c-35.3 0-64 28.7-64 64s28.7 64 64 64 64-28.7 64-64-28.7-64-64-64zm-48 48c0-8.8 7.2-16 16-16s16 7.2 16 16-7.2 16-16 16-16-7.2-16-16zm64 16c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16z' opacity='0.9'/>
+  </g>
+  <text x='256' y='425' font-family='sans-serif' font-size='42' font-weight='800' fill='#ffffff' text-anchor='middle' letter-spacing='2'>KEPAN PROFESI</text>
+  <text x='256' y='465' font-family='sans-serif' font-size='22' font-weight='500' fill='#a7f3d0' text-anchor='middle'>DOKUMENTASI KEPERAWATAN ANAK</text>
+</svg>
