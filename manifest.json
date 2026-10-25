@@ -1,7 +1,7 @@
 {
-  "name": "Dokumentasi Praktik Profesi Keperawatan Anak",
+  "name": "KepAn Profesi • Preseptor: Sugeng Hadisaputra, M. Kep., Sp. Kep An",
   "short_name": "KepAn Profesi",
-  "description": "Aplikasi HTML PWA Offline untuk Dokumentasi dan Pelaporan Praktik Profesi Keperawatan Anak",
+  "description": "Dokumentasi & Pelaporan Praktik Profesi Keperawatan Anak • Preseptor: Sugeng Hadisaputra, M. Kep., Sp. Kep An",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

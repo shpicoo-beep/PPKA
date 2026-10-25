@@ -1,5 +1,5 @@
 // Service Worker for Offline PWA - KepAn Profesi Keperawatan Anak
-const CACHE_NAME = 'kepan-profesi-v1';
+const CACHE_NAME = 'kepan-profesi-v2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
